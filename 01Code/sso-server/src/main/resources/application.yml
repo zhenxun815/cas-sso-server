@@ -10,7 +10,7 @@ server:
   port: 9052
   context-path: /sso
   #address: sso.server.com
-  address: http://192.168.2.65
+  address: 192.168.3.185
 
 spring:
     #MVC配置
@@ -35,10 +35,3 @@ spring:
       max-wait: -1
         # 最小空闲链接
       min-idle: 0
-
-      # 热部署
-  devtools:
-    restart:
-      enabled: false
-    livereload:
-      enabled: false
