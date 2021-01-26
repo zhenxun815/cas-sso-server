@@ -8,7 +8,7 @@ public class IndexController {
 
     @RequestMapping("/")
     public String index(){
-        return "自定义 SSO-Server 项目，用于和 CAS-Server 进行交互";
+        return "SSO-Server 认证中心，用于和 CAS-Server 进行交互，对外提供接口";
     }
 
 }
