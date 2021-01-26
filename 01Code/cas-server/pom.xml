@@ -148,7 +148,7 @@
         </repository>
         <repository>
             <id>shibboleth-releases</id>
-            <url>https://build.shibboleth.net/nexus/content/repositories/releases</url>
+            <url>http://maven.aliyun.com/nexus/content/repositories/central/</url>
         </repository>
     </repositories>
 
