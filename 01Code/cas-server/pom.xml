@@ -128,7 +128,7 @@
     <repositories>
         <repository>
             <id>sonatype-releases</id>
-            <url>http://oss.sonatype.org/content/repositories/releases/</url>
+            <url>http://maven.aliyun.com/nexus/content/repositories/central/</url>
             <snapshots>
                 <enabled>false</enabled>
             </snapshots>
@@ -138,13 +138,17 @@
         </repository>
         <repository>
             <id>sonatype-snapshots</id>
-            <url>https://oss.sonatype.org/content/repositories/snapshots/</url>
+            <url>http://maven.aliyun.com/nexus/content/repositories/central/</url>
             <snapshots>
                 <enabled>true</enabled>
             </snapshots>
             <releases>
                 <enabled>false</enabled>
             </releases>
+        </repository>
+        <repository>
+            <id>shibboleth-releases</id>
+            <url>http://maven.aliyun.com/nexus/content/repositories/central/</url>
         </repository>
 
     </repositories>
