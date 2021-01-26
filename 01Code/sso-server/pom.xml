@@ -87,7 +87,7 @@
 	</dependencies>
 
 	<build>
-	    <filename>sso-server</filename>
+	    <finalName>sso-server</finalName>
 		<plugins>
 			<!-- 添加spring的插件， 就可以直接通过 mvn spring-boot:run 运行了 -->
 			<plugin>
