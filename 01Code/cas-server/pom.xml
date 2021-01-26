@@ -146,10 +146,7 @@
                 <enabled>false</enabled>
             </releases>
         </repository>
-        <repository>
-            <id>shibboleth-releases</id>
-            <url>http://maven.aliyun.com/nexus/content/repositories/central/</url>
-        </repository>
+
     </repositories>
 
     <profiles>
