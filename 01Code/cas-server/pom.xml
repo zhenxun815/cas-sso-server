@@ -33,11 +33,6 @@
             <version>${cas.version}</version>
         </dependency>
         <dependency>
-            <groupId>org.apereo.cas</groupId>
-            <artifactId>cas-server-support-redis-ticket-registry</artifactId>
-            <version>${cas.version}</version>
-        </dependency>
-        <dependency>
             <groupId>com.alibaba</groupId>
             <artifactId>druid</artifactId>
             <version>1.2.3</version>
