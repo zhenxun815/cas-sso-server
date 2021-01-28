@@ -43,9 +43,11 @@ public class CasServerUtil {
      */
     public static String getTGT(String username, String password) {
         try{
-            CookieStore httpCookieStore = new BasicCookieStore();
+            //CookieStore httpCookieStore = new BasicCookieStore();
 
             CloseableHttpClient client = HttpClients.createDefault();
+
+            System.out.println("==================>验证一下，CAS-SERVER："+CasConfig.GET_TOKEN_URL);
 
             HttpPost httpPost = new HttpPost(CasConfig.GET_TOKEN_URL);
             List<NameValuePair> params = new ArrayList<NameValuePair>();

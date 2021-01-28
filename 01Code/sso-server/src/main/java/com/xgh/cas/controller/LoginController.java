@@ -48,16 +48,19 @@ public class LoginController {
         String username = request.getParameter("username");
         String password = request.getParameter("password");
         String service = request.getParameter("service");
+        System.out.println("==================>验证一下，用户名："+username);
+
 
         // 获取 TGT
         String tgt = CasServerUtil.getTGT(username, password);
+        System.out.println("==================>验证一下，TGT："+tgt);
         if (tgt == null){
             return new ResponseEntity("用户名或密码错误。", HttpStatus.BAD_REQUEST);
         }
 
-        // 设置cookie（1小时）
+        // 设置cookie
         Cookie cookie = new Cookie(CasConfig.COOKIE_NAME, username + "@" + tgt);
-        // Cookie有效时间
+        // Cookie有效时间（1小时）
         cookie.setMaxAge(CasConfig.COOKIE_VALID_TIME);
         // Cookie有效路径
         cookie.setPath("/");
