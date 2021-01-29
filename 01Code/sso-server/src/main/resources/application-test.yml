@@ -14,10 +14,7 @@ server:
   address: 192.168.2.65
 
 spring:
-  #激活环境配置文件  dev|test|prod
-  profiles:
-    active: test
-  #MVC配置
+    #MVC配置
   mvc:
     view:
       prefix: /WEB-INF/jsp/
@@ -39,3 +36,6 @@ spring:
       max-wait: -1
         # 最小空闲链接
       min-idle: 0
+service:
+  address:
+    GET_TOKEN_URL: 'https://xgohe.f3322.net:8443/cas/v1/tickets'
