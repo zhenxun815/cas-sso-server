@@ -27,27 +27,19 @@ import java.util.List;
 
 /**
  * CAS - Server通信服务
+ * @author liuguobao
+ * @date 2021-01-13
  */
 public class CasServerUtil {
 
-    public static void main(String[] args) {
-        try {
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
 
     /**
      * 获取TGT
      */
     public static String getTGT(String username, String password) {
         try{
-            //CookieStore httpCookieStore = new BasicCookieStore();
 
             CloseableHttpClient client = HttpClients.createDefault();
-
-            System.out.println("==================>验证一下，CAS-SERVER："+CasConfig.GET_TOKEN_URL);
 
             HttpPost httpPost = new HttpPost(CasConfig.GET_TOKEN_URL);
             List<NameValuePair> params = new ArrayList<NameValuePair>();
@@ -55,8 +47,6 @@ public class CasServerUtil {
             params.add(new BasicNameValuePair("password", password));
             httpPost.setEntity(new UrlEncodedFormEntity(params));
             HttpResponse response = client.execute(httpPost);
-
-
             Header headerLocation = response.getFirstHeader("Location");
             String location = headerLocation == null ? null : headerLocation.getValue();
 
@@ -79,33 +69,12 @@ public class CasServerUtil {
     public static String getST(String TGT, String service){
         try {
 
-//        CookieStore httpCookieStore = new BasicCookieStore();
-//        CloseableHttpClient client = createHttpClientWithNoSsl(httpCookieStore);
-
             CloseableHttpClient client = HttpClients.createDefault();
-
-
-            // service 需要encoder编码
-            // service = URLEncoder.encode(service, "utf-8");
-
             HttpPost httpPost = new HttpPost(CasConfig.GET_TOKEN_URL + "/" + TGT);
             List<NameValuePair> params = new ArrayList<NameValuePair>();
             params.add(new BasicNameValuePair("service", service));
             httpPost.setEntity(new UrlEncodedFormEntity(params));
             HttpResponse response = client.execute(httpPost);
-
-//        System.out.println("\n 获取ST，Header响应");
-//        Header[] allHeaders = response.getAllHeaders();
-//        for (int i = 0; i < allHeaders.length; i++) {
-//            System.out.println("Key：" + allHeaders[i].getName() + "，Value：" + allHeaders[i].getValue() + "，Elements:" + Arrays.toString(allHeaders[i].getElements()));
-//        }
-//
-//
-//        List<Cookie> cookies = httpCookieStore.getCookies();
-//        System.out.println("Cookie.size：" + cookies.size());
-//        for (Cookie cookie : cookies) {
-//            System.out.println("Cookie: " + new Gson().toJson(cookie));
-//        }
 
             String st = readResponse(response);
             return st == null ? null : (st == "" ? null : st);

@@ -48,12 +48,9 @@ public class LoginController {
         String username = request.getParameter("username");
         String password = request.getParameter("password");
         String service = request.getParameter("service");
-        System.out.println("==================>验证一下，用户名："+username);
-
 
         // 获取 TGT
         String tgt = CasServerUtil.getTGT(username, password);
-        System.out.println("==================>验证一下，TGT："+tgt);
         if (tgt == null){
             return new ResponseEntity("用户名或密码错误。", HttpStatus.BAD_REQUEST);
         }
@@ -90,40 +87,25 @@ public class LoginController {
      * CAS 更新TGT
      */
     @PostMapping("/verifyTgt")
-    public Object verifyTgt(HttpServletRequest request, HttpServletResponse response) throws Exception {
+    public Object verifyTgt(String username , String tgt) throws Exception {
 
-        String tgt = request.getParameter("tgt");
-        String username = request.getParameter("username");
-        String service = request.getParameter("service");
-
-        if (tgt == null){
-            return new ResponseEntity("用户名或密码错误。", HttpStatus.BAD_REQUEST);
+        if(StringUtils.isEmpty(username)){
+            return new ResponseEntity("更新失败，用户名不能为空！",HttpStatus.OK);
+        }
+        if(StringUtils.isEmpty(tgt)){
+            return new ResponseEntity("更新失败，票据信息（TGT）不能为空！",HttpStatus.OK);
         }
 
-        // 设置cookie（1小时）
-        Cookie cookie = new Cookie(CasConfig.COOKIE_NAME, username + "@" + tgt);
-        // Cookie有效时间
-        cookie.setMaxAge(CasConfig.COOKIE_VALID_TIME);
-        // Cookie有效路径
-        cookie.setPath("/");
-        // 只允许服务器获取cookie
-        cookie.setHttpOnly(true);
-        response.addCookie(cookie);
-
-        if(StringUtils.isEmpty(service)){
-            return new ResponseEntity(tgt,HttpStatus.CREATED);
+        // 获取Redis值
+        String value = tgtServer.getTGT(username);
+        // 匹配Redis中的TGT与接收的TGT是否相等
+        if (tgt.equals(value)) {
+            tgtServer.setTGT(username,tgt,CasConfig.COOKIE_VALID_TIME);
+        }else{
+            return new ResponseEntity("票据信息失效，最新票据信息为："+value,HttpStatus.OK);
         }
 
-        // 获取 ST
-        String st = CasServerUtil.getST(tgt, service);
-
-        if (st==null){
-            return new ResponseEntity("用户名或密码错误。", HttpStatus.BAD_REQUEST);
-        }
-
-        // 302重定向最后授权
-        String redirectUrl = service + "?ticket=" + st;
-        return "redirect:" + redirectUrl;
+        return new ResponseEntity(tgt,HttpStatus.OK);
     }
 
     /**
