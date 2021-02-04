@@ -84,6 +84,29 @@ public class LoginController {
     }
 
     /**
+     * CAS 登录验证
+     */
+    @PostMapping("/validateLogin")
+    public Object validateLogin(String username , String tgt) throws Exception {
+
+        if(StringUtils.isEmpty(username)){
+            return new ResponseEntity("登录验证失败，用户名不能为空！",HttpStatus.BAD_REQUEST);
+        }
+        if(StringUtils.isEmpty(tgt)){
+            return new ResponseEntity("登录验证失败，票据信息不能为空！",HttpStatus.BAD_REQUEST);
+        }
+
+        // 获取Redis值
+        String value = tgtServer.getTGT(username);
+        // 匹配Redis中的TGT与接收的TGT是否相等
+        if (tgt.equals(value)) {
+            tgtServer.setTGT(username,tgt,CasConfig.COOKIE_VALID_TIME);
+            return new ResponseEntity("validateLogin is ok",HttpStatus.OK);
+        }
+        return new ResponseEntity("登录验证失败，请重新登录！",HttpStatus.BAD_REQUEST);
+    }
+
+    /**
      * CAS 更新TGT
      */
     @PostMapping("/verifyTgt")
