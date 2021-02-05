@@ -41,11 +41,13 @@ public class LoginController {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(LoginController.class);
 
+
+
     /**
      * CAS 登录认证
      */
     @PostMapping("/loginRest")
-    public Map<String,String> login(HttpServletRequest request, HttpServletResponse response) throws Exception {
+    public Object login(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
         String username = request.getParameter("username");
         String password = request.getParameter("password");
@@ -56,9 +58,7 @@ public class LoginController {
         // 获取 TGT
         String tgt = CasServerUtil.getTGT(username, password);
         if (tgt == null){
-            map.put("success","0");
-            map.put("message","用户名或密码错误。");
-            return map;
+            return new ResponseEntity("用户名或密码错误。", HttpStatus.BAD_REQUEST);
         }
 
         // 设置cookie
@@ -75,25 +75,18 @@ public class LoginController {
         tgtServer.setTGT(username, tgt, CasConfig.COOKIE_VALID_TIME);
         // 当Service 为空时，直接返回 TGT
         if(StringUtils.isEmpty(service)){
-            map.put("success","1");
-            map.put("message",tgt);
-            return map;
+            return new ResponseEntity(tgt,HttpStatus.CREATED);
         }
 
         // 获取 ST
         String st = CasServerUtil.getST(tgt, service);
         if (st==null){
-            map.put("success","0");
-            map.put("message","用户名或密码错误。");
-            return map;
+            return new ResponseEntity("用户名或密码错误。", HttpStatus.BAD_REQUEST);
         }
 
         // 302重定向最后授权
         String redirectUrl = service + "?ticket=" + st;
-        map.put("success","1");
-        map.put("message",redirectUrl);
-        return map;
-        //return "redirect:" + redirectUrl;
+        return "redirect:" + redirectUrl;
     }
 
     /**
