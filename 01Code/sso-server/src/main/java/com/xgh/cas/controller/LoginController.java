@@ -21,6 +21,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.HashMap;
+import java.util.Map;
 
 
 /**
@@ -49,10 +51,14 @@ public class LoginController {
         String password = request.getParameter("password");
         String service = request.getParameter("service");
 
+        Map<String,String> map = new HashMap<String,String>();
+
         // 获取 TGT
         String tgt = CasServerUtil.getTGT(username, password);
         if (tgt == null){
-            return new ResponseEntity("用户名或密码错误。", HttpStatus.BAD_REQUEST);
+            map.put("success","0");
+            map.put("message","用户名或密码错误。");
+            return map;
         }
 
         // 设置cookie
@@ -69,13 +75,17 @@ public class LoginController {
         tgtServer.setTGT(username, tgt, CasConfig.COOKIE_VALID_TIME);
         // 当Service 为空时，直接返回 TGT
         if(StringUtils.isEmpty(service)){
-            return new ResponseEntity(tgt,HttpStatus.CREATED);
+            map.put("success","1");
+            map.put("message",tgt);
+            return map;
         }
 
         // 获取 ST
         String st = CasServerUtil.getST(tgt, service);
         if (st==null){
-            return new ResponseEntity("用户名或密码错误。", HttpStatus.BAD_REQUEST);
+            map.put("success","0");
+            map.put("message","用户名或密码错误。");
+            return map;
         }
 
         // 302重定向最后授权
