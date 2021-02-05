@@ -45,7 +45,7 @@ public class LoginController {
      * CAS 登录认证
      */
     @PostMapping("/loginRest")
-    public Object login(HttpServletRequest request, HttpServletResponse response) throws Exception {
+    public Map<String,String> login(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
         String username = request.getParameter("username");
         String password = request.getParameter("password");
@@ -90,7 +90,10 @@ public class LoginController {
 
         // 302重定向最后授权
         String redirectUrl = service + "?ticket=" + st;
-        return "redirect:" + redirectUrl;
+        map.put("success","1");
+        map.put("message",redirectUrl);
+        return map;
+        //return "redirect:" + redirectUrl;
     }
 
     /**
