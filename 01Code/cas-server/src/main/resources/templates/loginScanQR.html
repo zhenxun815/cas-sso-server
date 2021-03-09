@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+
+    <title>扫码登录页面</title>
+    <link href="../static/css/cas.css" rel="stylesheet" th:remove="tag" />
+    <link href="../static/css/register.css" rel="stylesheet" />
+</head>
+<body>
+<!--标题栏-->
+<div style="
+    height: 46px;
+    background: #2F2C2B;display: flex;padding-left: 208px;align-items: center">
+    <img src="../static/logo.png"  alt="" style="width: 87px;height: 29px;"/>
+    <div style="display: flex;justify-content: center;align-items: center;margin-left: 46px">
+        <span style="color: #FFFFFF;font-size: 14px">象过河</span>
+        <div style="margin-left: 10px;width: 1px;height: 14px;background-color: #FFFFFF"></div>
+        <span id="myPageTitle" style="border-bottom:2px solid #0071E3;color: #0071E3;font-size: 14px;margin-left: 10px;">登录</span>
+    </div>
+</div>
+<main role="main" class="" style="width: 100%;height: 100%">
+
+    <div class="" style="width: 100%">
+        <div class="" style="width: 100%">
+            <div th:fragment="loginform" class="" style="width: 100%">
+                <div style="display: flex;padding-left: 208px;padding-right: 208px;box-sizing: border-box;justify-content: space-between;width: 100%;height: 61px;align-items: center" >
+                    <span style="
+                        font-size: 20px;
+                        font-family: PingFangSC-Medium, PingFang SC;
+                        font-weight: 500;
+                        color: #333333;">登录象过河账号</span>
+                    <button style="background: #FFFFFF;border:0;
+                        outline: none;
+                        font-size: 14px;
+                        font-family: PingFangSC-Medium, PingFang SC;
+                        font-weight: 500;
+                        color: #333333;">注册</button>
+                </div>
+                <div style="height: 171px;display: flex;justify-content: center;align-items: center;
+                    background: linear-gradient(90deg, #261810 0%, #383522 31%, #365C88 51%, #242834 70%, #4B372C 83%, #353437 100%);">
+                    <span style="
+                        font-size: 40px;
+                        font-family: PingFangSC-Medium, PingFang SC;
+                        font-weight: 500;
+                        color: #FFFFFF;">登录您的象过河账号</span>
+                </div>
+                <div class="card-body" style="display: flex;justify-content: center;">
+                    <form method="post" id="fm1" th:object="${credential}" action="login">
+                        <div style="display: flex;justify-content: center;width: 100%;">
+                        <section class="form-group" style="margin-top: 30px;">
+                                <a href="register.html" style="font-size: 16px;color: #333333;
+                                font-family: PingFangSC-Regular, PingFang SC;font-weight: 400;">微信快捷登录。</a>
+                            <div style="display: flex;align-items: center;margin-top: 6px">
+                                <a href="register.html" class="text-blue" style="" >手机密码登录</a>
+                               <img src="../static/images/ic_right.png" alt="" style="width: 7px;height: 12px;margin-left: 15px"/>
+                            </div>
+                        </section>
+                        </div>
+                        <div style="color: #AAAAAA;font-size: 13px;margin-top: 24px">
+                            <span style="display: flex;justify-content: center">扫码后点击“确认授权”，即可绑定账号及登录<br/></span>
+                            <span style="display: flex;justify-content: center">支持扫码登录的app:</span>
+                            <div style="display: flex;justify-content: center;margin-top: 15px;align-items: center">
+                                <img src="../static/images/ic_wx.png" alt="" style="width: 20px;height: 20px;"/>
+                                <span style="font-size: 16px;color: #333333;
+                                font-family: PingFangSC-Regular, PingFang SC;font-weight: 400;margin-left: 5px">微信</span>
+                            </div>
+                        </div>
+                        <section style="display: flex;width: 100%;justify-content: center;margin-top: 20px">
+                        <div style="width: 189px;
+                            height: 189px;
+                            background: #000000;"></div>
+                        </section>
+                        <div style="display: flex;align-items: center;margin-top: 17px;justify-content: center">
+                            <a href="/register" class="text-blue" style="" >去注册</a>
+                            <img src="../static/images/ic_right.png" alt="" style="width: 7px;height: 12px;margin-left: 15px"/>
+                        </div>
+                    </form>
+
+                    <script type="text/javascript" th:inline="javascript">
+                        var i = [[#{screen.welcome.button.loginwip}]]
+                        $( document ).ready(function() {
+                            $("#fm1").submit(function () {
+                                $(":submit").attr("disabled", true);
+                                $(":submit").attr("value", i);
+                                console.log(i);
+                                return true;
+                            });
+                        });
+                    </script>
+
+                    <div th:replace="fragments/loginsidebar :: loginsidebar" />
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+</body>
+</html>
