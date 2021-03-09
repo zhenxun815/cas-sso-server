@@ -11208,20 +11208,20 @@ fieldset[disabled] .btn-yahoo.focus {
 
 .btn-submit:focus, .btn-submit.focus {
   color: #fff;
-  background-color: #1e7e34;
+  background-color: #0071E3;
   border-color: rgba(0, 0, 0, 0.2);
 }
 
 .btn-submit:hover {
   color: #fff;
-  background-color: #1e7e34;
+  background-color: #0071E3;
   border-color: rgba(0, 0, 0, 0.2);
 }
 
 .btn-submit:active, .btn-submit.active,
 .open > .btn-submit.dropdown-toggle {
   color: #fff;
-  background-color: #1e7e34;
+  background-color: #0071E3;
   border-color: rgba(0, 0, 0, 0.2);
 }
 
@@ -11230,7 +11230,7 @@ fieldset[disabled] .btn-yahoo.focus {
 .open > .btn-submit.dropdown-toggle:focus,
 .open > .btn-submit.dropdown-toggle.focus {
   color: #fff;
-  background-color: #176128;
+  background-color: #0071E3;
   border-color: rgba(0, 0, 0, 0.2);
 }
 
@@ -11605,7 +11605,7 @@ a.btn.btn-wordpress {
 .open > .btn-restart.dropdown-toggle:focus,
 .open > .btn-restart.dropdown-toggle.focus {
   color: #fff;
-  background-color: #176128;
+  background-color: #0071E3;
   border-color: rgba(0, 0, 0, 0.2);
 }
 
