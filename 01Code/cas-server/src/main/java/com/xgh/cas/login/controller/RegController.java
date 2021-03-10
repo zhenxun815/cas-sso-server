@@ -1,5 +1,6 @@
 package com.xgh.cas.login.controller;
 
+import com.xgh.cas.login.entity.UserInfo;
 import com.xgh.cas.message.entity.MessageEntity;
 import com.xgh.cas.message.util.SmsCodeUtil;
 import com.xgh.cas.utils.CheckUtil;
@@ -8,6 +9,7 @@ import com.xgh.cas.utils.MD5Util;
 import com.xgh.cas.utils.Result;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 /**
@@ -36,7 +38,17 @@ public class RegController {
         if(!CheckUtil.isMobile(phoneNumber)){
             return Result.error("请输入正确的手机号！");
         }
-        //发送验证码
+        //校验验证码
+        if(!SmsCodeUtil.isSmsCode("",code)){
+            return Result.error("验证码错误！");
+        }
+        UserInfo userInfo = new UserInfo();
+        userInfo.setPhoneNumber(phoneNumber);
+        /*int i = registerService.selectCount(userInfoEntityWrapper);
+        if(registerService.selectCount(userInfoEntityWrapper) > 0){
+            return Result.error("当前手机号已经注册！");
+        }*/
+
         String smsCode = "";
         //校验验证码是否正确
 
@@ -44,9 +56,6 @@ public class RegController {
         //MD5 加密
         //MD5Util.getMD5("123456");
         System.out.println("MD5 加密：==============>"+MD5Util.getMD5(passWord));
-
-
-
 
 
         return Result.OK("只是一个简单的测试！");
