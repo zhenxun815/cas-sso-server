@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+
+    <title>扫码注册步骤二</title>
+    <link href="../static/css/cas.css" rel="stylesheet" th:remove="tag" />
+    <link href="../static/css/register.css" rel="stylesheet" />
+</head>
+<body>
+<!--标题栏-->
+<div style="
+    height: 46px;
+    background: #2F2C2B;display: flex;padding-left: 208px;align-items: center">
+    <img src="../static/logo.png"  alt="" style="width: 87px;height: 29px;"/>
+    <div style="display: flex;justify-content: center;align-items: center;margin-left: 46px">
+        <span style="color: #FFFFFF;font-size: 14px">象过河</span>
+        <div style="margin-left: 10px;width: 1px;height: 14px;background-color: #FFFFFF"></div>
+        <span id="myPageTitle" style="border-bottom:2px solid #0071E3;color: #0071E3;font-size: 14px;margin-left: 10px;">注册</span>
+    </div>
+</div>
+<main role="main" class="" style="width: 100%;height: 100%">
+
+    <div class="" style="width: 100%">
+        <div class="" style="width: 100%">
+            <div th:fragment="loginform" class="" style="width: 100%">
+                <div style="display: flex;padding-left: 208px;padding-right: 208px;box-sizing: border-box;justify-content: space-between;width: 100%;height: 61px;align-items: center" >
+                    <span style="
+                        font-size: 20px;
+                        font-family: PingFangSC-Medium, PingFang SC;
+                        font-weight: 500;
+                        color: #333333;">注册象过河账号</span>
+                    <button style="background: #FFFFFF;border:0;
+                        outline: none;
+                        font-size: 14px;
+                        font-family: PingFangSC-Medium, PingFang SC;
+                        font-weight: 500;
+                        color: #333333;">登录</button>
+                </div>
+                <div style="height: 171px;display: flex;justify-content: center;align-items: center;
+                    background: linear-gradient(90deg, #261810 0%, #383522 31%, #365C88 51%, #242834 70%, #4B372C 83%, #353437 100%);">
+                    <span style="
+                        font-size: 40px;
+                        font-family: PingFangSC-Medium, PingFang SC;
+                        font-weight: 500;
+                        color: #FFFFFF;">注册您的象过河账号</span>
+                </div>
+                <div class="card-body" style="display: flex;justify-content: center;">
+                    <form method="post" id="fm1" th:object="${credential}" action="login">
+                        <div style="display: flex;justify-content: center;width: 100%;">
+                        <section class="form-group" style="margin-top: 30px;">
+                                <a href="register.html" style="font-size: 16px;color: #333333;font-family: PingFangSC-Regular, PingFang SC;font-weight: 400;">绑定手机号，下次可以直接扫码登录。</a>
+                        </section>
+                        </div>
+<!--                        手机号-->
+                        <section  style="margin-top:17px;width: 461px;height: 58px;border-radius: 4px;
+                                border: 1px solid #EEEEEE;padding-left: 18px;
+                                padding-right: 18px;display: flex;align-items: center">
+                            <div style="width: 100%;display: flex;justify-content: space-between;align-items: center;" >
+                                <input style="border:0px;outline: none;"
+                                       id="username"
+                                       size="25"
+                                       tabindex="1"
+                                       type="text"
+                                       placeholder="请输入手机号"
+                                       th:disabled="${guaEnabled}"
+                                       th:field="*{phoneNumber}"
+                                       th:accesskey="#{screen.welcome.label.netid.accesskey}"
+                                       autocomplete="off"/>
+                                <span th:if="${#accountError}" style="
+                                    font-size: 16px;
+                                    font-family: PingFangSC-Regular, PingFang SC;
+                                    font-weight: 400;
+                                    color: #E72112;">该账号已存在</span>
+                            </div>
+                        </section>
+<!--                        验证码-->
+                        <section  style="margin-top:17px;width: 461px;height: 58px;display: flex;align-items: center;justify-content: space-between">
+                            <div style="width: 307px;height: 58px;display: flex;justify-content: space-between;align-items: center;border-radius: 4px;
+                                border: 1px solid #EEEEEE;padding-left: 18px;
+                                padding-right: 18px;" >
+                                <input style="border:0px;outline: none;"
+                                       id="username"
+                                       size="15"
+                                       tabindex="1"
+                                       type="text"
+                                       placeholder="请输入验证码"
+                                       th:disabled="${guaEnabled}"
+                                       th:field="*{code}"
+                                       th:accesskey="#{screen.welcome.label.netid.accesskey}"
+                                       autocomplete="off"/>
+                                <span th:if="${#accountError}" style="
+                                    font-size: 16px;
+                                    font-family: PingFangSC-Regular, PingFang SC;
+                                    font-weight: 400;
+                                    color: #E72112;">验证码错误</span>
+                            </div>
+                            <button style="background: #FFFFFF;border:0;
+                                outline: none;
+                                font-size: 16px;
+                                font-family: PingFangSC-Medium, PingFang SC;
+                                font-weight: 400;
+                                color: #2D8AD3;">发送验证码</button>
+                        </section>
+
+                        <button style="width: 100%;
+                                border:0;
+                                outline: none;
+                                height: 44px;
+                                background: linear-gradient(180deg, #41A1EC 0%, #0077CC 100%);
+                                border-radius: 6px;
+                                margin-top: 48px;
+                                color: #FFFFFF;
+                                font-size: 16px"
+                                th:if="${phoneNumber != null AND passWord != null AND code != null}"
+                                th:attr="data-sitekey=${recaptchaSiteKey}, data-badge=${recaptchaPosition}"
+                                data-callback="onSubmit"
+                                name="submitBtn"
+                                accesskey="l"
+                                tabindex="6"
+                        >完成绑定</button>
+                    </form>
+                    <script type="text/javascript" th:inline="javascript">
+                        var i = [[#{screen.welcome.button.loginwip}]]
+                        $( document ).ready(function() {
+                            $("#fm1").submit(function () {
+                                $(":submit").attr("disabled", true);
+                                $(":submit").attr("value", i);
+                                console.log(i);
+                                return true;
+                            });
+                        });
+                    </script>
+
+                    <div th:replace="fragments/loginsidebar :: loginsidebar" />
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+</body>
+</html>
