@@ -33,7 +33,7 @@
                                 <span style="font-size: 16px;color: #333333;font-family: PingFangSC-Regular, PingFang SC;font-weight: 400;" th:utext="#{screen.welcomde.label.logintitle}"></span>
                             </div>
                             <div style="display: flex;align-items: center">
-                                <span class="text-blue" style="" th:utext="#{screen.welcomde.label.scanlogin}"></span>
+                                <a th:href="@{/loginScanQR}" class="text-blue" style="" th:utext="#{screen.welcomde.label.scanlogin}"></a>
                                 <img src="../../static/images/ic_right.png" alt="" style="width: 7px;height: 12px;margin-left: 15px"/>
                             </div>
                         </section>
@@ -141,11 +141,11 @@
                         <div th:unless="${passwordManagementEnabled}" class="forget-pwd"  style="background-color: #FFFFFF;color: #FFFFFF">
                             <!--                        liujn 去掉小图标-->
                             <!--                        <span class="fa fa-question-circle"></span>-->
-                            <a th:href="@{/register}" class="text-blue" th:utext="#{screen.pm.button.forgotpwd}" >Forgot your password?</a>
+                            <a th:href="@{/forgetPassword}" class="text-blue" th:utext="#{screen.pm.button.forgotpwd}" >Forgot your password?</a>
                         </div>
                 <!--                        没有账号？立即注册一个-->
                         <div class="account-register"  style="background-color: #FFFFFF;color: #FFFFFF">
-                            <a href="/register.html" class="text-blue" th:utext="#{screen.pm.button.noaccount.register}">No account?Sign up now?</a>
+                            <a th:href="@{/register}" class="text-blue" th:utext="#{screen.pm.button.noaccount.register}">No account?Sign up now?</a>
                         </div>
                     </div>
 
@@ -157,7 +157,7 @@
                         <p/>
                     </form>
                     <!--忘记密码-->
-                   <!-- <div th:unless="${passwordManagementEnabled}">
+                  <!-- <div th:unless="${passwordManagementEnabled}">
                         <span class="fa fa-question-circle"></span>
                         <span th:utext="#{screen.pm.button.forgotpwd}">Forgot your password?</span>
                         <p/>
