@@ -51,10 +51,13 @@
                     <form method="post" id="fm2" th:object="${credential}" action="register">
                         <div style="display: flex;justify-content: center;width: 100%;">
                         <section class="form-group" style="margin-top: 30px;">
-                                <a href="register.html" style="font-size: 16px;color: #333333;
-                                font-family: PingFangSC-Regular, PingFang SC;font-weight: 400;">手机号密码注册。</a>
+                                <span  style="font-size: 16px;color: #333333;
+                                font-family: PingFangSC-Regular, PingFang SC;font-weight: 400;">手机号密码注册。</span>
                             <div style="display: flex;align-items: center;margin-top: 6px">
-                                <a href="register.html" class="text-blue" style="" >微信快捷注册</a>
+                                <a th:href="@{/registerScanQR}" class="text-blue" style="  font-size: 16px;
+                                    font-family: PingFangSC-Regular, PingFang SC;
+                                    font-weight: 400;
+                                    color: #2D8AD3;" >微信快捷注册</a>
                                <img src="../static/images/ic_right.png" alt="" style="width: 7px;height: 12px;margin-left: 15px"/>
                             </div>
                         </section>
@@ -70,9 +73,6 @@
                                        tabindex="1"
                                        type="text"
                                        placeholder="请输入手机号"
-                                       th:disabled="${guaEnabled}"
-                                       th:field="*{phoneNumber}"
-                                       th:accesskey="#{screen.welcome.label.netid.accesskey}"
                                        autocomplete="off"/>
                                 <span th:if="${#accountError}" style="
                                     font-size: 16px;
@@ -92,8 +92,6 @@
                                        size="25"
                                        tabindex="2"
                                        placeholder="请输入密码"
-                                       th:accesskey="#{screen.welcome.label.password.accesskey}"
-                                       th:field="*{passWord}"
                                        autocomplete="off"/>
                             </div>
                         </section>
@@ -108,9 +106,6 @@
                                        tabindex="1"
                                        type="text"
                                        placeholder="请输入验证码"
-                                       th:disabled="${guaEnabled}"
-                                       th:field="*{code}"
-                                       th:accesskey="#{screen.welcome.label.netid.accesskey}"
                                        autocomplete="off"/>
                                 <span th:if="${#accountError}" style="
                                     font-size: 16px;
@@ -135,29 +130,14 @@
                                 margin-top: 48px;
                                 color: #FFFFFF;
                                 font-size: 16px"
-                                th:if="${phoneNumber != null AND passWord != null AND code != null}"
                                 th:attr="data-sitekey=${recaptchaSiteKey}, data-badge=${recaptchaPosition}"
                                 data-callback="onSubmit"
                                 name="submitBtn"
                                 accesskey="l"
                                 tabindex="6"
                         >注册</button>
-
                     </form>
 
-                    <script type="text/javascript" th:inline="javascript">
-                        var i = [[#{screen.welcome.button.loginwip}]]
-                        $( document ).ready(function() {
-                            $("#fm1").submit(function () {
-                                $(":submit").attr("disabled", true);
-                                $(":submit").attr("value", i);
-                                console.log(i);
-                                return true;
-                            });
-                        });
-                    </script>
-
-                    <div th:replace="fragments/loginsidebar :: loginsidebar" />
                 </div>
             </div>
         </div>
@@ -165,3 +145,12 @@
 </main>
 </body>
 </html>
+<script type="text/javascript" th:inline="javascript">
+<!--    注册-->
+    function register() {
+
+    }
+//    发送验证码
+
+
+</script>

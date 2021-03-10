@@ -9,6 +9,8 @@ import com.xgh.cas.utils.MD5Util;
 import com.xgh.cas.utils.Result;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,11 +21,15 @@ import org.springframework.web.bind.annotation.*;
  * @author: liuguobao(aika_liu @ 163.com)
  * @date: 2021/3/5 14:48
  */
-@RestController
+@Controller
 @Slf4j
 public class RegController {
+    @RequestMapping("/register")
+    public String register(Model model) {
+        return "register";
+    }
 
-    @GetMapping("/register")
+    @GetMapping("/register1")
     public Result<?> register(@RequestParam String phoneNumber, String code, String passWord){
         if(StringUtils.isEmpty(phoneNumber) ){
             return Result.error("手机号不能为空！");
@@ -60,6 +66,7 @@ public class RegController {
 
         return Result.OK("只是一个简单的测试！");
     }
+
 
     /**
      * 发送验证码
