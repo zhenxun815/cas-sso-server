@@ -25,10 +25,36 @@ import org.springframework.web.bind.annotation.RequestParam;
  */
 @Controller
 @Slf4j
-public class ResetPwdController {
+public class UIController {
+    //忘记密码页面
     @RequestMapping("/forgetPassword")
-    public String register(Model model) {
+    public String forgetPassword(Model model) {
         return "forgetPassword";
     }
+
+    //注册页面
+    @RequestMapping("/register")
+    public String register(Model model) {
+        return "register";
+    }
+
+    //扫码登录页面
+    @RequestMapping("/loginScanQR")
+    public String loginScanQR(Model model) {
+        return "loginScanQR";
+    }
+
+    //扫码注册第一步页面
+    @RequestMapping("/registerScanQR")
+    public String registerScanQR(Model model) {
+        return "registerScanQR";
+    }
+
+    //扫码注册第二步页面
+    @RequestMapping("/registerScanNext")
+    public String registerScanNext(Model model) {
+        return "registerScanNext";
+    }
+
 
 }

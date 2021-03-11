@@ -171,6 +171,7 @@
     }
     //点击注册
     function clickRegister() {
+        debugger;
          if(!checkElement()){
              return;
          }
@@ -178,13 +179,13 @@
           $.ajax({
               type: "GET",
               url: "/cas/register1",
-              data: {phoneNumber:userName, code:code,password:password},
+              data: {phoneNumber:userName, code:code,passWord:password},
               dataType: "json",
               success: function(data){
                   alert("1");
                   console.log(data);
                   //   2、注册完成，跳转到登录页面
-                  window.location.href="/login";
+                  window.location.href="/cas/login";
               },
               error:function (error) {
                   console.log('data');
