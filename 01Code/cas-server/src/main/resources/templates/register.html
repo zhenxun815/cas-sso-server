@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
@@ -7,7 +7,9 @@
 
     <title>注册页面</title>
     <link href="../static/css/cas.css" rel="stylesheet" th:remove="tag" />
-    <link href="../static/css/register.css" rel="stylesheet" />
+<!--    <link href="../static/css/register.css" rel="stylesheet" />-->
+<!--    <script type="text/javascript" src="../static/js/jquery-3.6.0.min.js"></script>-->
+    <script type="text/javascript" th:src="@{#{webjars.jquerymin.js}}"></script>
 </head>
 <body>
 <!--标题栏-->
@@ -32,12 +34,12 @@
                         font-family: PingFangSC-Medium, PingFang SC;
                         font-weight: 500;
                         color: #333333;">注册象过河账号</span>
-                    <button style="background: #FFFFFF;border:0;
+                    <button id="btnLogin" style="background: #FFFFFF;border:0;
                         outline: none;
                         font-size: 14px;
                         font-family: PingFangSC-Medium, PingFang SC;
                         font-weight: 500;
-                        color: #333333;">登录</button>
+                        color: #333333;" onclick="goLogin()">登录</button>
                 </div>
                 <div style="height: 171px;display: flex;justify-content: center;align-items: center;
                     background: linear-gradient(90deg, #261810 0%, #383522 31%, #365C88 51%, #242834 70%, #4B372C 83%, #353437 100%);">
@@ -71,14 +73,19 @@
                                        id="username"
                                        size="25"
                                        tabindex="1"
-                                       type="text"
+                                       type="tel"
                                        placeholder="请输入手机号"
-                                       autocomplete="off"/>
-                                <span th:if="${#accountError}" style="
+                                       autocomplete="off"
+                                       maxlength="11"
+                                       onblur="checkAccount()"
+                                />
+                                <span id="accountError"  style="
                                     font-size: 16px;
                                     font-family: PingFangSC-Regular, PingFang SC;
                                     font-weight: 400;
-                                    color: #E72112;">手机号格式错误</span>
+                                    color: #E72112;
+                                    visibility: hidden;
+                                    ">手机号格式错误</span>
                             </div>
                         </section>
 <!--                        密码-->
@@ -101,27 +108,30 @@
                                 border: 1px solid #EEEEEE;padding-left: 18px;
                                 padding-right: 18px;" >
                                 <input style="border:0px;outline: none;"
-                                       id="username"
+                                       id="code"
                                        size="15"
                                        tabindex="1"
                                        type="text"
                                        placeholder="请输入验证码"
-                                       autocomplete="off"/>
-                                <span th:if="${#accountError}" style="
+                                       autocomplete="off"
+                                       onblur="checkCode()"/>
+                                <span id="codeError" style="
                                     font-size: 16px;
                                     font-family: PingFangSC-Regular, PingFang SC;
                                     font-weight: 400;
-                                    color: #E72112;">验证码错误</span>
+                                    color: #E72112;visibility: hidden;">验证码错误</span>
                             </div>
-                            <button style="background: #FFFFFF;border:0;
+                            <button
+                                id="btnSendCode"
+                                type="button" style="background: #FFFFFF;border:0;
                                 outline: none;
                                 font-size: 16px;
                                 font-family: PingFangSC-Medium, PingFang SC;
                                 font-weight: 400;
-                                color: #2D8AD3;">发送验证码</button>
+                                color: #2D8AD3;" onclick="sendSms()" value="">发送验证码</button>
                         </section>
 
-                        <button style="width: 100%;
+                        <button type="button" style="width: 100%;
                                 border:0;
                                 outline: none;
                                 height: 44px;
@@ -130,11 +140,7 @@
                                 margin-top: 48px;
                                 color: #FFFFFF;
                                 font-size: 16px"
-                                th:attr="data-sitekey=${recaptchaSiteKey}, data-badge=${recaptchaPosition}"
-                                data-callback="onSubmit"
-                                name="submitBtn"
-                                accesskey="l"
-                                tabindex="6"
+                                onclick="clickRegister()"
                         >注册</button>
                     </form>
 
@@ -145,12 +151,120 @@
 </main>
 </body>
 </html>
-<script type="text/javascript" th:inline="javascript">
-<!--    注册-->
-    function register() {
+<style type="text/css">
+    a{text-decoration:none}
+    a:hover{text-decoration:none}
+</style>
+
+<script language="JavaScript" type="text/javascript">
+
+    let userName = "";
+    let code = "";
+    let password = "";
+    let codeTime= 60;
+    let timerId= null;
+
+    //点击登录按钮，跳转到登录页面
+    function goLogin() {
+        alert('点击登录');
+        window.location.href="/login";
+    }
+    //点击注册
+    function clickRegister() {
+        debugger;
+         if(!checkElement()){
+             return;
+         }
+          //1、发送网络请求进行注册
+          $.ajax({
+              type: "GET",
+              url: "/cas/register1",
+              data: {phoneNumber:userName, code:code,passWord:password},
+              dataType: "json",
+              success: function(data){
+                  alert("1");
+                  console.log(data);
+                  //   2、注册完成，跳转到登录页面
+                  window.location.href="/cas/login";
+              },
+              error:function (error) {
+                  console.log('data');
+              }
+          });
+
 
     }
-//    发送验证码
+    //检查各项输入是否有效
+    function checkElement(){
+        if(!checkAccount()){
+            return false
+        }
+        if(!checkPassword()){
+            return false
+        }
+        if(!checkCode()){
+            return false
+        }
+        return true;
+    }
+    // 发送验证码
+    function sendSms() {
+        if(!checkAccount()){
+            return;
+        }
+    //    1、发送网络请求发送验证码
+    //    2、计时器倒计时开始
+        document.getElementById('btnSendCode').value="已发送"
+        timerId = setInterval(() => { //此处直接复制了另一个插件里的计时器，在插件市场里搜索登录，时间最靠前的那位
+                let ctime = codeTime;
+                ctime--;
+                codeTime = ctime;
+                document.getElementById('btnSendCode').innerHTML="已发送("+ctime+")s"
+                if (codeTime < 1) {
+                    clearInterval(timerId);
+                    codeTime = 60;
+                    document.getElementById('btnSendCode').innerHTML="发送验证码"
+                }
+            },
+            1000);
 
+    }
+    //校验手机号
+    function checkAccount() {
+        userName = document.getElementById('username').value;
+        let reg = /^1\d{10}$/
+        if(userName==""||userName==null||!reg.test(userName)){
+            //手机号输入格式不正确
+            document.getElementById("accountError").style.visibility="visible";
+            return false;
+        }else{
+            //手机号输入正确
+            document.getElementById("accountError").style.visibility="hidden";
+            return true;
+        }
+    }
+    //校验密码
+    function checkPassword(){
+        password = document.getElementById('password').value;
+        if(password==""||password==null){
+            alert("请输入密码");
+            return false;
+        }else{
+            return true;
+        }
+    }
+    //校验验证码
+    function checkCode(){
+        code = document.getElementById('code').value;
+        if(code==""||code==null){
+            //手机号输入格式不正确
+            document.getElementById("codeError").style.visibility="visible";
+            return false;
+        }else{
+            //手机号输入正确
+            document.getElementById("codeError").style.visibility="hidden";
+            return true;
+        }
 
+    }
 </script>

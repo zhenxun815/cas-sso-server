@@ -21,14 +21,9 @@ import org.springframework.web.bind.annotation.*;
  * @author: liuguobao(aika_liu @ 163.com)
  * @date: 2021/3/5 14:48
  */
-@Controller
+@RestController
 @Slf4j
 public class RegController {
-    @RequestMapping("/register")
-    public String register(Model model) {
-        return "register";
-    }
-
     @GetMapping("/register1")
     public Result<?> register(@RequestParam String phoneNumber, String code, String passWord){
         if(StringUtils.isEmpty(phoneNumber) ){
