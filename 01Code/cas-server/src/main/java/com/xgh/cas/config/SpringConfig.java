@@ -1,7 +1,17 @@
 package com.xgh.cas.config;
 
+import com.baomidou.mybatisplus.extension.spring.MybatisSqlSessionFactoryBean;
+import org.apache.ibatis.session.SqlSessionFactory;
+import org.mybatis.spring.annotation.MapperScan;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
+import org.springframework.boot.autoconfigure.jdbc.DataSourceBuilder;
+import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+
+import javax.sql.DataSource;
 
 /**
  * Description
@@ -12,6 +22,22 @@ import org.springframework.context.annotation.Configuration;
  */
 @Configuration
 @ComponentScan("com.xgh.cas")
+@MapperScan("com.xgh.cas.login.mapper")
 public class SpringConfig {
+
+    @Bean
+    @ConditionalOnMissingBean(DataSource.class)
+    @ConfigurationProperties("spring.datasource")
+    public DataSource dataSource(){
+        return DataSourceBuilder.create().build();
+    }
+
+    @Bean
+    @ConditionalOnMissingBean(SqlSessionFactory.class)
+    public SqlSessionFactory sqlSessionFactory(DataSource dataSource) throws Exception {
+        MybatisSqlSessionFactoryBean bean = new MybatisSqlSessionFactoryBean();
+        bean.setDataSource(dataSource);
+        return bean.getObject();
+    }
 
 }
