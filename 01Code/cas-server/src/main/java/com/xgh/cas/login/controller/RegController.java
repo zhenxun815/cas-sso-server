@@ -1,6 +1,8 @@
 package com.xgh.cas.login.controller;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.xgh.cas.login.entity.UserInfo;
+import com.xgh.cas.login.service.IRegisterService;
 import com.xgh.cas.message.entity.MessageEntity;
 import com.xgh.cas.message.util.SmsCodeUtil;
 import com.xgh.cas.utils.CheckUtil;
@@ -24,6 +26,11 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @Slf4j
 public class RegController {
+
+    @Autowired
+    private IRegisterService registerService;
+
+
     @GetMapping("/register1")
     public Result<?> register(@RequestParam String phoneNumber, String code, String passWord){
         if(StringUtils.isEmpty(phoneNumber) ){
@@ -40,15 +47,15 @@ public class RegController {
             return Result.error("请输入正确的手机号！");
         }
         //校验验证码
-        if(!SmsCodeUtil.isSmsCode("",code)){
+        /*if(!SmsCodeUtil.isSmsCode("",code)){
             return Result.error("验证码错误！");
-        }
+        }*/
         UserInfo userInfo = new UserInfo();
         userInfo.setPhoneNumber(phoneNumber);
-        /*int i = registerService.selectCount(userInfoEntityWrapper);
-        if(registerService.selectCount(userInfoEntityWrapper) > 0){
+        QueryWrapper<UserInfo> userInfoQueryWrapper = new QueryWrapper<UserInfo>(userInfo);
+        if(registerService.count(userInfoQueryWrapper) > 0){
             return Result.error("当前手机号已经注册！");
-        }*/
+        }
 
         String smsCode = "";
         //校验验证码是否正确
@@ -57,9 +64,12 @@ public class RegController {
         //MD5 加密
         //MD5Util.getMD5("123456");
         System.out.println("MD5 加密：==============>"+MD5Util.getMD5(passWord));
+        userInfo.setPassword(MD5Util.getMD5(passWord));
+
+        registerService.save(userInfo);
 
 
-        return Result.OK("只是一个简单的测试！");
+        return Result.OK("注册成功！");
     }
 
 
@@ -90,7 +100,6 @@ public class RegController {
         //发送失败
         if (message == null) {
             return Result.error("发送短信验证码失败!");
-
         }
 
 
