@@ -7,9 +7,11 @@
 
     <title>注册页面</title>
     <link href="../static/css/cas.css" rel="stylesheet" th:remove="tag" />
-<!--    <link href="../static/css/register.css" rel="stylesheet" />-->
-<!--    <script type="text/javascript" src="../static/js/jquery-3.6.0.min.js"></script>-->
+
     <script type="text/javascript" th:src="@{#{webjars.jquerymin.js}}"></script>
+<!--    <script src="http://libs.baidu.com/jquery/1.9.0/jquery.js" type="text/javascript"></script>-->
+    <script src="https://cdn.bootcss.com/blueimp-md5/2.10.0/js/md5.js"></script>
+
 </head>
 <body>
 <!--标题栏-->
@@ -179,15 +181,18 @@
           $.ajax({
               type: "GET",
               url: "/cas/register1",
-              data: {phoneNumber:userName, code:code,passWord:password},
+              data: {phoneNumber:userName, code:code,password:password},
               dataType: "json",
               success: function(data){
-                  alert("1");
                   console.log(data);
-                  //   2、注册完成，跳转到登录页面
-                  window.location.href="/cas/login";
+                  alert(data.message);
+                  if(data.success&&data.code==200){
+                      //   2、注册完成，跳转到登录页面
+                      window.location.href="/cas/login";
+                  }
               },
               error:function (error) {
+                  alert("注册失败");
                   console.log('data');
               }
           });
@@ -212,7 +217,24 @@
         if(!checkAccount()){
             return;
         }
+        debugger;
     //    1、发送网络请求发送验证码
+        let sign = md5("appid" + '7648eb564c5' + "mobile" + userName + 'eccbc87e4b5ce2fe28308')
+        $.ajax({
+            type: "POST",
+            url: "/cas/sendSmsCode",
+            data: {phoneNumber:userName, sign:sign},
+            dataType: "json",
+            success: function(data){
+                console.log("验证码发送成功");
+                console.log(data);
+            //    验证码发送成功
+
+            },
+            error:function (error) {
+                console.log('验证码发送失败');
+            }
+        });
     //    2、计时器倒计时开始
         document.getElementById('btnSendCode').value="已发送"
         timerId = setInterval(() => { //此处直接复制了另一个插件里的计时器，在插件市场里搜索登录，时间最靠前的那位
@@ -228,14 +250,20 @@
             },
             1000);
 
+
     }
     //校验手机号
     function checkAccount() {
         userName = document.getElementById('username').value;
         let reg = /^1\d{10}$/
-        if(userName==""||userName==null||!reg.test(userName)){
+        if(userName==""||userName==null){
             //手机号输入格式不正确
             document.getElementById("accountError").style.visibility="visible";
+            document.getElementById("accountError").innerHTML="手机号不能为空";
+            return false;
+        }else if(!reg.test(userName)){
+            document.getElementById("accountError").style.visibility="visible";
+            document.getElementById("accountError").innerHTML="手机号输入格式不正确";
             return false;
         }else{
             //手机号输入正确
@@ -257,11 +285,12 @@
     function checkCode(){
         code = document.getElementById('code').value;
         if(code==""||code==null){
-            //手机号输入格式不正确
+            //输入格式不正确
             document.getElementById("codeError").style.visibility="visible";
+            document.getElementById("codeError").innerText="请输入验证码";
             return false;
         }else{
-            //手机号输入正确
+            //验证码输入正确
             document.getElementById("codeError").style.visibility="hidden";
             return true;
         }
