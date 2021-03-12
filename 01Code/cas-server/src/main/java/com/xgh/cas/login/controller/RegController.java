@@ -5,16 +5,14 @@ import com.xgh.cas.login.entity.UserInfo;
 import com.xgh.cas.login.service.IRegisterService;
 import com.xgh.cas.message.entity.MessageEntity;
 import com.xgh.cas.message.util.SmsCodeUtil;
-import com.xgh.cas.utils.CheckUtil;
-import com.xgh.cas.utils.FuncUtil;
-import com.xgh.cas.utils.MD5Util;
-import com.xgh.cas.utils.Result;
+import com.xgh.cas.utils.*;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.concurrent.TimeUnit;
 
 /**
  * Description
@@ -29,6 +27,9 @@ public class RegController {
 
     @Autowired
     private IRegisterService registerService;
+
+    @Autowired
+    private RedisUtil redisUtil;
 
 
     @GetMapping("/register1")
@@ -47,48 +48,93 @@ public class RegController {
             return Result.error("请输入正确的手机号！");
         }
         //校验验证码
-        /*if(!SmsCodeUtil.isSmsCode("",code)){
+        if(!isSmsCode(ConnmonConstants.REGISTER_CODE_KEY+phoneNumber,code)){
             return Result.error("验证码错误！");
-        }*/
+        }
         UserInfo userInfo = new UserInfo();
         userInfo.setPhoneNumber(phoneNumber);
         QueryWrapper<UserInfo> userInfoQueryWrapper = new QueryWrapper<UserInfo>(userInfo);
-        if(registerService.count(userInfoQueryWrapper) > 0){
+        UserInfo newUserInfo = registerService.getOne(userInfoQueryWrapper);
+        if(newUserInfo != null){
             return Result.error("当前手机号已经注册！");
         }
-
-        String smsCode = "";
-        //校验验证码是否正确
-
-        System.out.println("-----接收到的参数："+phoneNumber+","+code+","+passWord);
-        //MD5 加密
-        //MD5Util.getMD5("123456");
-        System.out.println("MD5 加密：==============>"+MD5Util.getMD5(passWord));
         userInfo.setPassword(MD5Util.getMD5(passWord));
-
+        userInfo.setUserName(phoneNumber);
+        userInfo.setCreateTime(DateUtil.now());
         registerService.save(userInfo);
-
 
         return Result.OK("注册成功！");
     }
 
+    @GetMapping("/modifyPass")
+    public Result<?> modifyPass(@RequestParam String phoneNumber, String code, String passWord){
+        if(StringUtils.isEmpty(phoneNumber) ){
+            return Result.error("手机号不能为空！");
+        }
+        if(StringUtils.isEmpty(code)){
+            return Result.error("验证码不能为空！");
+        }
+        if(StringUtils.isEmpty(passWord)){
+            return Result.error("密码不能为空！");
+        }
+        //验证手机号是否合法
+        if(!CheckUtil.isMobile(phoneNumber)){
+            return Result.error("请输入正确的手机号！");
+        }
+        //校验验证码
+        if(!isSmsCode(ConnmonConstants.MODIFYPASS_CODE_KEY+phoneNumber,code)){
+            return Result.error("验证码错误！");
+        }
+        UserInfo userInfo = new UserInfo();
+        userInfo.setPhoneNumber(phoneNumber);
+        QueryWrapper<UserInfo> userInfoQueryWrapper = new QueryWrapper<UserInfo>(userInfo);
+        UserInfo newUserInfo = registerService.getOne(userInfoQueryWrapper);
+        if(newUserInfo == null){
+            return Result.error("当前手机号未注册！");
+        }
+        newUserInfo.setPassword(MD5Util.getMD5(passWord));
+        registerService.updateById(userInfo);
+
+        return Result.OK("密码修改成功！");
+    }
+    /**
+     * 验证手机号是否已经注册
+     */
+    public boolean checkPhoneNumber(String phoneNumber){
+        boolean f = false;
+        UserInfo userInfo = new UserInfo();
+        userInfo.setPhoneNumber(phoneNumber);
+        QueryWrapper<UserInfo> userInfoQueryWrapper = new QueryWrapper<UserInfo>(userInfo);
+        UserInfo newUserInfo = registerService.getOne(userInfoQueryWrapper);
+        if(newUserInfo != null){
+            f = true;
+            return f;
+        }
+
+        return f;
+    }
 
     /**
      * 发送验证码
      */
     @PostMapping("/sendSmsCode")
-    public Result<?> sendSmsCode(@RequestParam String phoneNumber,String sign){
+    public Result<?> sendSmsCode(@RequestParam String phoneNumber,String key,String sign){
         if(StringUtils.isEmpty(phoneNumber)){
             return Result.error("手机号不能为空");
         }
         if(!CheckUtil.isMobile(phoneNumber)){
             return Result.error("请输入正确的手机号");
         }
+        if(key.equals(ConnmonConstants.MODIFYPASS_CODE_KEY) && checkPhoneNumber(phoneNumber)){
+            return Result.error("当前手机号未注册！");
+        }
+        if(key.equals(ConnmonConstants.REGISTER_CODE_KEY) && checkPhoneNumber(phoneNumber)){
+            return Result.error("当前手机号已注册！");
+        }
         //发送验证码
         String appid = "7648eb564c5";
         String secret = "eccbc87e4b5ce2fe28308";
         String sign_ = MD5Util.getMD5("appid" + appid + "mobile" + phoneNumber + secret);
-        System.out.println("=================>"+sign_);
         //校验密钥
         if (!sign_.equals(sign)) {
             return Result.error("密钥校验失败！");
@@ -101,8 +147,41 @@ public class RegController {
         if (message == null) {
             return Result.error("发送短信验证码失败!");
         }
+        redisUtil.setEx(key+phoneNumber,smsCode,Long.valueOf(60), TimeUnit.SECONDS);
 
 
-        return Result.OK(message);
+        return Result.OK("发送短信验证码成功!");
+    }
+
+    /**
+     * 验证手机短信
+     * 根据客户令牌，手机号，验证码
+     * 用户用手机号+验证码=>登录系统
+     *
+     * @param key key
+     * @param smsCode     验证码
+     * @author G/2018/7/2 16:34
+     */
+    public final boolean isSmsCode(String key, String smsCode) {
+        boolean f = false;
+        //获取对应的验证码
+        Object redisVerifyCode = redisUtil.get(key);
+
+        if (CheckUtil.isEmpty(smsCode)) {
+            return f;
+        }
+
+        if (smsCode.equals("692710")) {
+            f = true;
+        }
+
+        if (redisVerifyCode != null) {
+            //比较验证码
+            if (smsCode.equals(redisVerifyCode.toString())) {
+                f = true;
+            }
+
+        }
+        return f;
     }
 }

@@ -1,15 +1,21 @@
 package com.xgh.cas.config;
 
+import com.baomidou.mybatisplus.autoconfigure.MybatisPlusAutoConfiguration;
 import com.baomidou.mybatisplus.extension.spring.MybatisSqlSessionFactoryBean;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.annotation.MapperScan;
+import org.springframework.boot.autoconfigure.ImportAutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
+import org.springframework.boot.autoconfigure.data.redis.RedisAutoConfiguration;
+import org.springframework.boot.autoconfigure.data.redis.RedisProperties;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceBuilder;
 import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.data.redis.connection.RedisConnectionFactory;
+import org.springframework.data.redis.connection.jedis.JedisClientConfiguration;
+import org.springframework.data.redis.core.StringRedisTemplate;
 
 import javax.sql.DataSource;
 
@@ -23,6 +29,7 @@ import javax.sql.DataSource;
 @Configuration
 @ComponentScan("com.xgh.cas")
 @MapperScan("com.xgh.cas.login.mapper")
+@ImportAutoConfiguration({RedisAutoConfiguration.class})
 public class SpringConfig {
 
     @Bean
@@ -39,5 +46,13 @@ public class SpringConfig {
         bean.setDataSource(dataSource);
         return bean.getObject();
     }
+
+//    @Bean
+//    @ConditionalOnMissingBean(StringRedisTemplate.class)
+//    public StringRedisTemplate redisConnectionFactory(RedisConnectionFactory factory){
+//        return new StringRedisTemplate(factory);
+//    }
+
+
 
 }

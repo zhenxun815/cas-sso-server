@@ -11,6 +11,8 @@ public class ConnmonConstants {
 
     public static final String LOGIN_CODE_EXPIRE_TIME = "LOGIN_CODE_EXPIRE_TIME";
     public static final String LOGIN_CODE_KEY = "LOGIN_CODE_KEY:";
+    public static final String REGISTER_CODE_KEY = "REGISTER_CODE_KEY:";
+    public static final String MODIFYPASS_CODE_KEY = "MODIFYPASS_CODE_KEY:";
     /**
      * 用来标志是机构的登录
      */

@@ -184,7 +184,7 @@
               dataType: "json",
               success: function(data){
                   console.log(data);
-                  alert(data.message);
+                  //alert(data.message);
                   if(data.success&&data.code==200){
                       //   2、注册完成，跳转到登录页面
                       window.location.href="/cas/login";
@@ -236,7 +236,7 @@
         $.ajax({
             type: "POST",
             url: "/cas/sendSmsCode",
-            data: {phoneNumber:userName, sign:sign},
+            data: {phoneNumber:userName,key:'REGISTER_CODE_KEY:', sign:sign},
             dataType: "json",
             success: function(data){
                 console.log("验证码发送成功");
