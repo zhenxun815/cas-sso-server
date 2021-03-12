@@ -173,7 +173,6 @@
     }
     //点击注册
     function clickRegister() {
-        debugger;
          if(!checkElement()){
              return;
          }
@@ -181,7 +180,7 @@
           $.ajax({
               type: "GET",
               url: "/cas/register1",
-              data: {phoneNumber:userName, code:code,password:password},
+              data: {phoneNumber:userName, code:code,passWord:password},
               dataType: "json",
               success: function(data){
                   console.log(data);
@@ -217,25 +216,8 @@
         if(!checkAccount()){
             return;
         }
-        debugger;
-    //    1、发送网络请求发送验证码
-        let sign = md5("appid" + '7648eb564c5' + "mobile" + userName + 'eccbc87e4b5ce2fe28308')
-        $.ajax({
-            type: "POST",
-            url: "/cas/sendSmsCode",
-            data: {phoneNumber:userName, sign:sign},
-            dataType: "json",
-            success: function(data){
-                console.log("验证码发送成功");
-                console.log(data);
-            //    验证码发送成功
 
-            },
-            error:function (error) {
-                console.log('验证码发送失败');
-            }
-        });
-    //    2、计时器倒计时开始
+    //    1、计时器倒计时开始
         document.getElementById('btnSendCode').value="已发送"
         timerId = setInterval(() => { //此处直接复制了另一个插件里的计时器，在插件市场里搜索登录，时间最靠前的那位
                 let ctime = codeTime;
@@ -249,7 +231,23 @@
                 }
             },
             1000);
+//    2、发送网络请求发送验证码
+        let sign = md5("appid" + '7648eb564c5' + "mobile" + userName + 'eccbc87e4b5ce2fe28308')
+        $.ajax({
+            type: "POST",
+            url: "/cas/sendSmsCode",
+            data: {phoneNumber:userName, sign:sign},
+            dataType: "json",
+            success: function(data){
+                console.log("验证码发送成功");
+                console.log(data);
+                //    验证码发送成功
 
+            },
+            error:function (error) {
+                console.log('验证码发送失败');
+            }
+        });
 
     }
     //校验手机号
