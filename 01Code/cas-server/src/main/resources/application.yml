@@ -2,14 +2,14 @@ spring:
   # 配置数据源
   datasource:
       driver-class-name: com.mysql.cj.jdbc.Driver
-      url: jdbc:mysql://127.0.0.1:3306/cas_server?useUnicode=true&characterEncoding=utf8&autoReconnect=true&zeroDateTimeBehavior=convertToNull&transformedBitIsBoolean=true&allowPublicKeyRetrieval=true&serverTimezone=GMT%2B8
+      url: jdbc:mysql://192.168.2.146:3306/cas_server?useUnicode=true&characterEncoding=utf8&autoReconnect=true&zeroDateTimeBehavior=convertToNull&transformedBitIsBoolean=true&allowPublicKeyRetrieval=true&serverTimezone=GMT%2B8
       username: cas_server
       password: cas_server
       type: com.alibaba.druid.pool.DruidDataSource
   #redis 配置
   redis:
     database: 0
-    host: 192.168.3.185
+    host: 192.168.2.146
     lettuce:
       pool:
         max-active: 8   #最大连接数据库连接数,设 0 为没有限制

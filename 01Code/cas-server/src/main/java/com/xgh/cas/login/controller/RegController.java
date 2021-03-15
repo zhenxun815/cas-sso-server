@@ -82,7 +82,7 @@ public class RegController {
             return Result.error("请输入正确的手机号！");
         }
         //校验验证码
-        if(isSmsCode(ConnmonConstants.MODIFYPASS_CODE_KEY+phoneNumber,code)){
+        if(!isSmsCode(ConnmonConstants.MODIFYPASS_CODE_KEY+phoneNumber,code)){
             return Result.error("验证码错误！");
         }
         UserInfo userInfo = new UserInfo();
