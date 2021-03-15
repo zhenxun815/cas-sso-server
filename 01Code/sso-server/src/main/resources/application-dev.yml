@@ -9,8 +9,8 @@ info:
 server:
   port: 9052
   context-path: /sso
-  #address: sso.server.com
-  address: 192.168.3.185
+  address: sso.server.com
+  #address: 192.168.3.185
 
 spring:
     #MVC配置

@@ -5,18 +5,17 @@ import com.google.gson.GsonBuilder;
 import com.xgh.cas.config.CasConfig;
 import com.xgh.cas.server.TgtServer;
 import com.xgh.cas.utils.CasServerUtil;
+import com.xgh.cas.utils.Result;
 import com.xgh.cas.viewmodel.res.UserCheckResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -32,7 +31,7 @@ import java.util.Map;
  * @author: liuguobao
  * @date: 2021/1/18 10:26
  */
-@Controller
+@RestController
 @RequestMapping("/login")
 public class LoginController {
 
@@ -41,24 +40,21 @@ public class LoginController {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(LoginController.class);
 
-
-
     /**
      * CAS 登录认证
      */
     @PostMapping("/loginRest")
-    public Object login(HttpServletRequest request, HttpServletResponse response) throws Exception {
+    public Result<?> login(HttpServletRequest request, HttpServletResponse response) {
 
         String username = request.getParameter("username");
         String password = request.getParameter("password");
         String service = request.getParameter("service");
 
-        Map<String,String> map = new HashMap<String,String>();
-
         // 获取 TGT
         String tgt = CasServerUtil.getTGT(username, password);
         if (tgt == null){
-            return new ResponseEntity("用户名或密码错误。", HttpStatus.BAD_REQUEST);
+            //return new ResponseEntity("用户名或密码错误。", HttpStatus.BAD_REQUEST);
+            return Result.error("用户名或密码错误");
         }
 
         // 设置cookie
@@ -75,18 +71,20 @@ public class LoginController {
         tgtServer.setTGT(username, tgt, CasConfig.COOKIE_VALID_TIME);
         // 当Service 为空时，直接返回 TGT
         if(StringUtils.isEmpty(service)){
-            return new ResponseEntity(tgt,HttpStatus.CREATED);
+            //return new ResponseEntity(tgt,HttpStatus.CREATED);
+            return Result.OK(tgt);
         }
 
         // 获取 ST
         String st = CasServerUtil.getST(tgt, service);
         if (st==null){
-            return new ResponseEntity("用户名或密码错误。", HttpStatus.BAD_REQUEST);
+            return Result.error("用户名或密码错误");
         }
 
         // 302重定向最后授权
         String redirectUrl = service + "?ticket=" + st;
-        return "redirect:" + redirectUrl;
+        //return "redirect:" + redirectUrl;
+        return Result.OK(redirectUrl);
     }
 
     /**
