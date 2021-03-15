@@ -61,7 +61,7 @@
                                 <a th:href="@{/registerScanQR}" class="text-blue" style="  font-size: 16px;
                                     font-family: PingFangSC-Regular, PingFang SC;
                                     font-weight: 400;
-                                    color: #2D8AD3;" >微信快捷注册</a>
+                                    color: #2D8AD3;visibility: hidden" >微信快捷注册</a>
                                <img src="../static/images/ic_right.png" alt="" style="width: 7px;height: 12px;margin-left: 15px"/>
                             </div>
                         </section>
@@ -102,6 +102,13 @@
                                        tabindex="2"
                                        placeholder="请输入密码"
                                        autocomplete="off"/>
+                                <span id="passError"  style="
+                                    font-size: 16px;
+                                    font-family: PingFangSC-Regular, PingFang SC;
+                                    font-weight: 400;
+                                    color: #E72112;
+                                    visibility: hidden;
+                                    ">手机号或密码错误</span>
                             </div>
                         </section>
 <!--                        验证码-->
@@ -133,6 +140,7 @@
                                 color: #2D8AD3;" onclick="sendSms()" value="">发送验证码</button>
                         </section>
 
+
                         <button type="button" style="width: 100%;
                                 border:0;
                                 outline: none;
@@ -144,6 +152,7 @@
                                 font-size: 16px"
                                 onclick="clickRegister()"
                         >注册</button>
+                        <span id="regSuccess" style="display: flex;width: 100%;justify-content: center;margin-top: 20px;color: #1e7e34;visibility: hidden">注册成功</span>
                     </form>
 
                 </div>
@@ -168,8 +177,7 @@
 
     //点击登录按钮，跳转到登录页面
     function goLogin() {
-        alert('点击登录');
-        window.location.href="/login";
+        window.location.href="/cas/login";
     }
     //点击注册
     function clickRegister() {
@@ -187,12 +195,32 @@
                   //alert(data.message);
                   if(data.success&&data.code==200){
                       //   2、注册完成，跳转到登录页面
-                      window.location.href="/cas/login";
+                      document.getElementById("regSuccess").style.visibility="visible";
+                      setTimeout(function () {
+                          window.location.href="/cas/login";
+                      },2000)
+
+                  }else{
+                      clearInterval(timerId);
+                      codeTime = 60;
+                      document.getElementById('btnSendCode').innerHTML="发送验证码";
+                      if(data.message.indexOf("手机号") > -1){
+                          document.getElementById("accountError").style.visibility="visible";
+                          document.getElementById("accountError").innerHTML=data.message;
+                      }else if(data.message.indexOf("验证码") > -1){
+                          document.getElementById("codeError").style.visibility="visible";
+                          document.getElementById("codeError").innerHTML=data.message;
+                      }else if(data.message.indexOf("密码") > -1){
+                          document.getElementById("passError").style.visibility="visible";
+                          document.getElementById("passError").innerHTML=data.message;
+                      }
+
                   }
               },
               error:function (error) {
-                  alert("注册失败");
-                  console.log('data');
+                  clearInterval(timerId);
+                  codeTime = 60;
+                  document.getElementById('btnSendCode').innerHTML="发送验证码";
               }
           });
 
@@ -214,6 +242,9 @@
     // 发送验证码
     function sendSms() {
         if(!checkAccount()){
+            return;
+        }
+        if( codeTime < 60){
             return;
         }
 
@@ -239,13 +270,28 @@
             data: {phoneNumber:userName,key:'REGISTER_CODE_KEY:', sign:sign},
             dataType: "json",
             success: function(data){
-                console.log("验证码发送成功");
-                console.log(data);
                 //    验证码发送成功
+                if(data.success&&data.code==200){
+                    document.getElementById("codeError").style.visibility="visible";
+                    document.getElementById("codeError").innerHTML="验证码发送成功";
+                }else{
+                    clearInterval(timerId);
+                    codeTime = 60;
+                    document.getElementById('btnSendCode').innerHTML="发送验证码";
+                    if(data.message.indexOf("手机号") > -1){
+                        document.getElementById("accountError").style.visibility="visible";
+                        document.getElementById("accountError").innerHTML=data.message;
+                    }else if(data.message.indexOf("验证码") > -1){
+                        document.getElementById("codeError").style.visibility="visible";
+                        document.getElementById("codeError").innerHTML=data.message;
+                    }
+                }
 
             },
             error:function (error) {
-                console.log('验证码发送失败');
+                clearInterval(timerId);
+                codeTime = 60;
+                document.getElementById('btnSendCode').innerHTML="发送验证码";
             }
         });
 
