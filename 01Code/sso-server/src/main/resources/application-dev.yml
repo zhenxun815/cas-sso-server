@@ -9,8 +9,8 @@ info:
 server:
   port: 9052
   context-path: /sso
-  address: sso.server.com
-  #address: 192.168.3.185
+  #address: sso.server.com
+  address: 192.168.2.65
 
 spring:
     #MVC配置
@@ -23,7 +23,7 @@ spring:
   redis:
         ## Redis数据库索引（默认为0）
     database: 0
-    host: 127.0.0.1
+    host: 192.168.2.65
     port: 6379
     password: 'redis'
     pool:
