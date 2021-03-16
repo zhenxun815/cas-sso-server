@@ -24,7 +24,7 @@ import javax.sql.DataSource;
 @Configuration
 @ComponentScan("com.xgh.cas")
 @MapperScan("com.xgh.cas.login.mapper")
-@ImportAutoConfiguration({RedisAutoConfiguration.class})
+@ImportAutoConfiguration(RedisAutoConfiguration.class)
 public class SpringConfig {
 
     @Bean
