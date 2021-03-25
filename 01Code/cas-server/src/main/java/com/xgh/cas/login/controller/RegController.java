@@ -9,7 +9,6 @@ import com.xgh.cas.utils.*;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.concurrent.TimeUnit;
@@ -93,7 +92,7 @@ public class RegController {
             return Result.error("当前手机号未注册！");
         }
         newUserInfo.setPassword(MD5Util.getMD5(passWord));
-        registerService.updateById(userInfo);
+        registerService.updateById(newUserInfo);
 
         return Result.OK("密码修改成功！");
     }
