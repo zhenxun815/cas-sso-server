@@ -66,9 +66,11 @@ public class RegController {
         sysUser.setUsername(phoneNumber);
         sysUser.setRealname(phoneNumber);
         sysUser.setPassword(passWord);
-        sysUser.setSalt(salt);
-        String userpassword = PasswordUtil.encrypt(phoneNumber, passWord, salt);
-        sysUser.setPassword(userpassword);
+
+
+//        sysUser.setSalt(salt);
+//        String userpassword = PasswordUtil.encrypt(phoneNumber, passWord, salt);
+        sysUser.setPassword(MD5Util.getMD5(passWord));
 
         QueryWrapper<SysUser> query = new QueryWrapper<>();
         query.eq("username", phoneNumber);
