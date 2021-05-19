@@ -62,7 +62,6 @@ public class SysUser {
 
     private String departIds;
 
-    private String relTenantIds;
     /**
      * 创建时间
      */
