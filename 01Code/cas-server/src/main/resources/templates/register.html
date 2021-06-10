@@ -241,6 +241,7 @@
     }
     // 发送验证码
     function sendSms() {
+        console.log("checkAccount",checkAccount());
         if(!checkAccount()){
             return;
         }
@@ -312,26 +313,28 @@
             return false;
         }else if(reg.test(userName)){
             console.log("格式正确---------")
+            var i;
             $.ajax({
                     url:"/cas/checkPhone",
                     type:"GET",
                     data:{phoneNumber:userName},
+                    async:false,
                     success:function(data){
                         if (data.success){
                             console.log("可以注册---------")
                             //手机号输入正确
                             document.getElementById("accountError").style.visibility="hidden";
-                            return true;
+                            i = true;
                         }else {
                             console.log("不可注册---------")
                             document.getElementById("accountError").style.visibility="visible";
                             document.getElementById("accountError").innerHTML=data.message;
-                            return false;
+                            i = false;
                         }
-
-                    },
+                    }
                 }
             )
+            return i;
         }
 
     }

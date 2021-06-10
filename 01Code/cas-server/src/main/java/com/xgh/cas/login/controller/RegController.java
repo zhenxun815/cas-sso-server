@@ -113,16 +113,14 @@ public class RegController {
         if (!isSmsCode(ConnmonConstants.MODIFYPASS_CODE_KEY + phoneNumber, code)) {
             return Result.error("验证码错误！");
         }
-        UserInfo userInfo = new UserInfo();
-        userInfo.setPhoneNumber(phoneNumber);
-        QueryWrapper<UserInfo> userInfoQueryWrapper = new QueryWrapper<UserInfo>(userInfo);
-        UserInfo newUserInfo = registerService.getOne(userInfoQueryWrapper);
-        if (newUserInfo == null) {
+        QueryWrapper<SysUser> query = new QueryWrapper<>();
+        query.eq("username", phoneNumber);
+        SysUser sysUser = sysUserService.getOne(query);
+        if (sysUser == null) {
             return Result.error("当前手机号未注册！");
         }
-        newUserInfo.setPassword(MD5Util.getMD5(passWord));
-        registerService.updateById(newUserInfo);
-
+        sysUser.setPassword(MD5Util.getMD5(passWord));
+        sysUserService.updateById(sysUser);
         return Result.OK("密码修改成功！");
     }
 
