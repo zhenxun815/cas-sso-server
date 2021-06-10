@@ -85,7 +85,7 @@
                                     font-size: 16px;
                                     font-family: PingFangSC-Regular, PingFang SC;
                                     font-weight: 400;
-                                    color: #E72112;
+                                    color: #e72112;
                                     visibility: hidden;
                                     ">手机号格式错误</span>
                             </div>
@@ -300,6 +300,7 @@
     function checkAccount() {
         userName = document.getElementById('username').value;
         let reg = /^1\d{10}$/
+
         if(userName==""||userName==null){
             //手机号输入格式不正确
             document.getElementById("accountError").style.visibility="visible";
@@ -309,11 +310,30 @@
             document.getElementById("accountError").style.visibility="visible";
             document.getElementById("accountError").innerHTML="手机号输入格式不正确";
             return false;
-        }else{
-            //手机号输入正确
-            document.getElementById("accountError").style.visibility="hidden";
-            return true;
+        }else if(reg.test(userName)){
+            console.log("格式正确---------")
+            $.ajax({
+                    url:"/cas/checkPhone",
+                    type:"GET",
+                    data:{phoneNumber:userName},
+                    success:function(data){
+                        if (data.success){
+                            console.log("可以注册---------")
+                            //手机号输入正确
+                            document.getElementById("accountError").style.visibility="hidden";
+                            return true;
+                        }else {
+                            console.log("不可注册---------")
+                            document.getElementById("accountError").style.visibility="visible";
+                            document.getElementById("accountError").innerHTML=data.message;
+                            return false;
+                        }
+
+                    },
+                }
+            )
         }
+
     }
     //校验密码
     function checkPassword(){

@@ -131,11 +131,10 @@ public class RegController {
      */
     public boolean checkPhoneNumber(String phoneNumber) {
         boolean f = false;
-        UserInfo userInfo = new UserInfo();
-        userInfo.setPhoneNumber(phoneNumber);
-        QueryWrapper<UserInfo> userInfoQueryWrapper = new QueryWrapper<UserInfo>(userInfo);
-        UserInfo newUserInfo = registerService.getOne(userInfoQueryWrapper);
-        if (newUserInfo != null) {
+        QueryWrapper<SysUser> query = new QueryWrapper<>();
+        query.eq("username", phoneNumber);
+        List<SysUser> userList = sysUserService.list(query);
+        if (userList != null&&userList.size()>0) {
             f = true;
             return f;
         }
@@ -157,9 +156,9 @@ public class RegController {
         if (key.equals(ConnmonConstants.MODIFYPASS_CODE_KEY) && !checkPhoneNumber(phoneNumber)) {
             return Result.error("当前手机号未注册！");
         }
-        if (key.equals(ConnmonConstants.REGISTER_CODE_KEY) && checkPhoneNumber(phoneNumber)) {
-            return Result.error("当前手机号已注册！");
-        }
+//        if (key.equals(ConnmonConstants.REGISTER_CODE_KEY) && checkPhoneNumber(phoneNumber)) {
+//            return Result.error("当前手机号已注册！");
+//        }
         //发送验证码
         String appid = "7648eb564c5";
         String secret = "eccbc87e4b5ce2fe28308";
@@ -180,6 +179,14 @@ public class RegController {
 
 
         return Result.OK("发送短信验证码成功!");
+    }
+
+    @GetMapping("checkPhone")
+    public Result<?> checkPhone(String phoneNumber){
+        if (!CheckUtil.isEmpty(phoneNumber)&&checkPhoneNumber(phoneNumber)) {
+            return Result.error("当前手机号已注册！");
+        }
+        return Result.OK();
     }
 
     /**
