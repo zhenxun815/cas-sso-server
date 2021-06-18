@@ -2,14 +2,18 @@ spring:
   # 配置数据源
   datasource:
       driver-class-name: com.mysql.cj.jdbc.Driver
-      url: jdbc:mysql://192.168.2.146:3306/customer_service?useUnicode=true&characterEncoding=utf8&autoReconnect=true&zeroDateTimeBehavior=convertToNull&transformedBitIsBoolean=true&allowPublicKeyRetrieval=true&serverTimezone=GMT%2B8
-      username: customer_service
-      password: xgh88999
+#      url: jdbc:mysql://192.168.2.146:3306/customer_service?useUnicode=true&characterEncoding=utf8&autoReconnect=true&zeroDateTimeBehavior=convertToNull&transformedBitIsBoolean=true&allowPublicKeyRetrieval=true&serverTimezone=GMT%2B8
+#      username: customer_service
+#      password: xgh88999
+      url: jdbc:mysql://10.41.100.67:3306/customerservice?useUnicode=true&characterEncoding=utf8&autoReconnect=true&zeroDateTimeBehavior=convertToNull&transformedBitIsBoolean=true&allowPublicKeyRetrieval=true&serverTimezone=GMT%2B8
+      username: customerservice
+      password: 6rMfRGBh4ebpTw7C
       type: com.alibaba.druid.pool.DruidDataSource
   #redis 配置
   redis:
     database: 0
-    host: 192.168.2.65
+#    host: 192.168.2.65
+    host: 10.41.100.66
     lettuce:
       pool:
         max-active: 8   #最大连接数据库连接数,设 0 为没有限制
@@ -17,8 +21,10 @@ spring:
         max-wait: -1ms  #最大建立连接等待时间。如果超过此时间将接到异常。设为-1表示无限制。
         min-idle: 0     #最小等待连接中的数量,设 0 为没有限制
       shutdown-timeout: 100ms
-    password: 'redis'
-    port: 6379
+#    password: 'redis'
+    password: 'xgh99999'
+#    port: 6379
+    port: 6381
 # mybatis-plus相关配置
 mybatis-plus:
   # xml扫描，多个目录用逗号或者分号分隔（告诉 Mapper 所对应的 XML 文件位置）

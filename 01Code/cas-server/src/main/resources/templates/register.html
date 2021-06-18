@@ -177,7 +177,9 @@
 
     //点击登录按钮，跳转到登录页面
     function goLogin() {
-        window.location.href="/cas/login?service=http://192.168.2.65:8095";
+        //发布修改
+        // window.location.href="/cas/login?service=http://192.168.2.65:8095";
+        window.location.href="/cas/login?service=http://122.114.4.139:10010";
     }
     //点击注册
     function clickRegister() {
@@ -197,7 +199,9 @@
                       //   2、注册完成，跳转到登录页面
                       document.getElementById("regSuccess").style.visibility="visible";
                       setTimeout(function () {
-                          window.location.href="/cas/login?service=http://192.168.2.65:8095";
+                          //发布修改
+                          // window.location.href="/cas/login?service=http://192.168.2.65:8095";
+                          window.location.href="/cas/login?service=http://122.114.4.139:10010";
                       },2000)
 
                   }else{
