@@ -91,7 +91,32 @@
 		</dependency>
 
 	</dependencies>
-
+	<!-- 多环境配置 -->
+	<profiles>
+		<profile>
+			<id>dev</id>
+			<!-- 环境标识，需要与配置文件的名称相对应 -->
+			<properties>
+				<profiles.active>dev</profiles.active>
+			</properties>
+			<!-- 默认环境 -->
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+		</profile>
+		<profile>
+			<id>prod</id>
+			<properties>
+				<profiles.active>prod</profiles.active>
+			</properties>
+		</profile>
+		<profile>
+			<id>test</id>
+			<properties>
+				<profiles.active>test</profiles.active>
+			</properties>
+		</profile>
+	</profiles>
 	<build>
 	    <finalName>sso-server</finalName>
 		<plugins>
