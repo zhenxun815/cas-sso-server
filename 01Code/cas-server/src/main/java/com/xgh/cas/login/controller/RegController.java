@@ -16,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -66,7 +67,7 @@ public class RegController {
         sysUser.setUsername(phoneNumber);
         sysUser.setRealname(phoneNumber);
         sysUser.setPassword(passWord);
-
+        sysUser.setCreateTime(new Date());
 
 //        sysUser.setSalt(salt);
 //        String userpassword = PasswordUtil.encrypt(phoneNumber, passWord, salt);
