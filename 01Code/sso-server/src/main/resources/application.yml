@@ -15,7 +15,7 @@ server:
 spring:
   #激活环境配置文件  dev|test|prod
   profiles:
-    active: test
+    active: dev
   #MVC配置
   mvc:
     view:
