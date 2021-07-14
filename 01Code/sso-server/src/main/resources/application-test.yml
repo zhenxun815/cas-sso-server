@@ -7,7 +7,7 @@ info:
 
 
 server:
-  port: 9052
+  port: 9055
   context-path: /sso
 
 spring:
