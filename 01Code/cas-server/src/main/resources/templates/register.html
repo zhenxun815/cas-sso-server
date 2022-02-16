@@ -6,10 +6,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
 
     <title>注册页面</title>
-    <link href="../static/css/cas.css" rel="stylesheet" th:remove="tag" />
+    <link href="../static/css/cas.css" rel="stylesheet" th:remove="tag"/>
 
     <script type="text/javascript" th:src="@{#{webjars.jquerymin.js}}"></script>
-<!--    <script src="http://libs.baidu.com/jquery/1.9.0/jquery.js" type="text/javascript"></script>-->
+    <!--    <script src="http://libs.baidu.com/jquery/1.9.0/jquery.js" type="text/javascript"></script>-->
     <script src="https://cdn.bootcss.com/blueimp-md5/2.10.0/js/md5.js"></script>
 
 </head>
@@ -18,11 +18,12 @@
 <div style="
     height: 46px;
     background: #2F2C2B;display: flex;padding-left: 208px;align-items: center">
-    <img src="https://minio.fangshangqu.net/cas/static/logo.png"  alt="" style="width: 87px;height: 29px;"/>
+    <img src="https://minio.fangshangqu.net/cas/static/logo.png" alt="" style="width: 87px;height: 29px;"/>
     <div style="display: flex;justify-content: center;align-items: center;margin-left: 46px">
         <span style="color: #FFFFFF;font-size: 14px">象过河</span>
         <div style="margin-left: 10px;width: 1px;height: 14px;background-color: #FFFFFF"></div>
-        <span id="myPageTitle" style="border-bottom:2px solid #0071E3;color: #0071E3;font-size: 14px;margin-left: 10px;">注册</span>
+        <span id="myPageTitle"
+              style="border-bottom:2px solid #0071E3;color: #0071E3;font-size: 14px;margin-left: 10px;">注册</span>
     </div>
 </div>
 <main role="main" class="" style="width: 100%;height: 100%">
@@ -30,7 +31,7 @@
     <div class="" style="width: 100%">
         <div class="" style="width: 100%">
             <div th:fragment="loginform" class="" style="width: 100%">
-                <div style="display: flex;padding-left: 208px;padding-right: 208px;box-sizing: border-box;justify-content: space-between;width: 100%;height: 61px;align-items: center" >
+                <div style="display: flex;padding-left: 208px;padding-right: 208px;box-sizing: border-box;justify-content: space-between;width: 100%;height: 61px;align-items: center">
                     <span style="
                         font-size: 20px;
                         font-family: PingFangSC-Medium, PingFang SC;
@@ -41,7 +42,8 @@
                         font-size: 14px;
                         font-family: PingFangSC-Medium, PingFang SC;
                         font-weight: 500;
-                        color: #333333;" onclick="goLogin()">登录</button>
+                        color: #333333;" onclick="goLogin()">登录
+                    </button>
                 </div>
                 <div style="height: 171px;display: flex;justify-content: center;align-items: center;
                     background: linear-gradient(90deg, #261810 0%, #383522 31%, #365C88 51%, #242834 70%, #4B372C 83%, #353437 100%);">
@@ -54,23 +56,24 @@
                 <div class="card-body" style="display: flex;justify-content: center;">
                     <form method="post" id="fm2" th:object="${credential}" action="register">
                         <div style="display: flex;justify-content: center;width: 100%;">
-                        <section class="form-group" style="margin-top: 30px;">
-                                <span  style="font-size: 16px;color: #333333;
+                            <section class="form-group" style="margin-top: 30px;">
+                                <span style="font-size: 16px;color: #333333;
                                 font-family: PingFangSC-Regular, PingFang SC;font-weight: 400;">手机号密码注册。</span>
-                            <div style="display: flex;align-items: center;margin-top: 6px">
-                                <a th:href="@{/registerScanQR}" class="text-blue" style="  font-size: 16px;
+                                <div style="display: flex;align-items: center;margin-top: 6px">
+                                    <a th:href="@{/registerScanQR}" class="text-blue" style="  font-size: 16px;
                                     font-family: PingFangSC-Regular, PingFang SC;
                                     font-weight: 400;
-                                    color: #2D8AD3;visibility: hidden" >微信快捷注册</a>
-                               <img src="../static/images/ic_right.png" alt="" style="width: 7px;height: 12px;margin-left: 15px"/>
-                            </div>
-                        </section>
+                                    color: #2D8AD3;visibility: hidden">微信快捷注册</a>
+                                    <img src="../static/images/ic_right.png" alt=""
+                                         style="width: 7px;height: 12px;margin-left: 15px"/>
+                                </div>
+                            </section>
                         </div>
-<!--                        手机号-->
-                        <section  style="margin-top:17px;width: 461px;height: 58px;border-radius: 4px;
+                        <!--                        手机号-->
+                        <section style="margin-top:17px;width: 461px;height: 58px;border-radius: 4px;
                                 border: 1px solid #EEEEEE;padding-left: 18px;
                                 padding-right: 18px;display: flex;align-items: center">
-                            <div style="width: 100%;display: flex;justify-content: space-between;align-items: center;" >
+                            <div style="width: 100%;display: flex;justify-content: space-between;align-items: center;">
                                 <input style="border:0px;outline: none;"
                                        id="username"
                                        size="25"
@@ -81,7 +84,7 @@
                                        maxlength="11"
                                        onblur="checkAccount()"
                                 />
-                                <span id="accountError"  style="
+                                <span id="accountError" style="
                                     font-size: 16px;
                                     font-family: PingFangSC-Regular, PingFang SC;
                                     font-weight: 400;
@@ -90,11 +93,11 @@
                                     ">手机号格式错误</span>
                             </div>
                         </section>
-<!--                        密码-->
-                        <section  style="margin-top:30px;width: 461px;height: 58px;
+                        <!--                        密码-->
+                        <section style="margin-top:30px;width: 461px;height: 58px;
                                 border-radius: 4px;border: 1px solid #EEEEEE;padding-left: 18px;
                                 padding-right: 18px;display: flex;align-items: center">
-                            <div style="width: 100%;display: flex;justify-content: space-between;align-items: center" >
+                            <div style="width: 100%;display: flex;justify-content: space-between;align-items: center">
                                 <input style="border:0px;outline: none;"
                                        type="password"
                                        id="password"
@@ -102,7 +105,7 @@
                                        tabindex="2"
                                        placeholder="请输入密码"
                                        autocomplete="off"/>
-                                <span id="passError"  style="
+                                <span id="passError" style="
                                     font-size: 16px;
                                     font-family: PingFangSC-Regular, PingFang SC;
                                     font-weight: 400;
@@ -111,11 +114,12 @@
                                     ">手机号或密码错误</span>
                             </div>
                         </section>
-<!--                        验证码-->
-                        <section  style="margin-top:17px;width: 461px;height: 58px;display: flex;align-items: center;justify-content: space-between">
+                        <!--                        验证码-->
+                        <section
+                                style="margin-top:17px;width: 461px;height: 58px;display: flex;align-items: center;justify-content: space-between">
                             <div style="width: 307px;height: 58px;display: flex;justify-content: space-between;align-items: center;border-radius: 4px;
                                 border: 1px solid #EEEEEE;padding-left: 18px;
-                                padding-right: 18px;" >
+                                padding-right: 18px;">
                                 <input style="border:0px;outline: none;"
                                        id="code"
                                        size="15"
@@ -131,13 +135,14 @@
                                     color: #E72112;visibility: hidden;">验证码错误</span>
                             </div>
                             <button
-                                id="btnSendCode"
-                                type="button" style="background: #FFFFFF;border:0;
+                                    id="btnSendCode"
+                                    type="button" style="background: #FFFFFF;border:0;
                                 outline: none;
                                 font-size: 16px;
                                 font-family: PingFangSC-Medium, PingFang SC;
                                 font-weight: 400;
-                                color: #2D8AD3;" onclick="sendSms()" value="">发送验证码</button>
+                                color: #2D8AD3;" onclick="sendSms()" value="">发送验证码
+                            </button>
                         </section>
 
 
@@ -151,8 +156,10 @@
                                 color: #FFFFFF;
                                 font-size: 16px"
                                 onclick="clickRegister()"
-                        >注册</button>
-                        <span id="regSuccess" style="display: flex;width: 100%;justify-content: center;margin-top: 20px;color: #1e7e34;visibility: hidden">注册成功</span>
+                        >注册
+                        </button>
+                        <span id="regSuccess"
+                              style="display: flex;width: 100%;justify-content: center;margin-top: 20px;color: #1e7e34;visibility: hidden">注册成功</span>
                     </form>
 
                 </div>
@@ -163,8 +170,13 @@
 </body>
 </html>
 <style type="text/css">
-    a{text-decoration:none}
-    a:hover{text-decoration:none}
+    a {
+        text-decoration: none
+    }
+
+    a:hover {
+        text-decoration: none
+    }
 </style>
 
 <script language="JavaScript" type="text/javascript">
@@ -172,98 +184,108 @@
     let userName = "";
     let code = "";
     let password = "";
-    let codeTime= 60;
-    let timerId= null;
+    let codeTime = 60;
+    let timerId = null;
 
+    let newService = location.search.substring(9);
+    console.log("location.search:", newService)
     //点击登录按钮，跳转到登录页面
     function goLogin() {
+
         //发布修改
-        window.location.href="/cas/login?service=http://192.168.2.65:8095";
-        // window.location.href="/cas/login?service=http://122.114.4.139:10010";
+        //window.location.href="/cas/login?service=http://192.168.2.65:8095";
+        //window.location.href="/cas/login?service=http://192.168.2.53:9528/";
+        //window.location.href = "/cas/login?service=https://my.xiangguohe.com/";
+        window.location.href = "/cas/login?service=" + newService;
     }
+
     //点击注册
     function clickRegister() {
-         if(!checkElement()){
-             return;
-         }
-          //1、发送网络请求进行注册
-          $.ajax({
-              type: "GET",
-              url: "/cas/register1",
-              data: {phoneNumber:userName, code:code,passWord:password},
-              dataType: "json",
-              success: function(data){
-                  console.log(data);
-                  //alert(data.message);
-                  if(data.success&&data.code==200){
-                      //   2、注册完成，跳转到登录页面
-                      document.getElementById("regSuccess").style.visibility="visible";
-                      setTimeout(function () {
-                          //发布修改
-                          window.location.href="/cas/login?service=http://192.168.2.65:8095";
-                          // window.location.href="/cas/login?service=http://122.114.4.139:10010";
-                      },2000)
+        if (!checkElement()) {
+            return;
+        }
+        //1、发送网络请求进行注册
+        $.ajax({
+            type: "GET",
+            url: "/cas/register1",
+            data: {phoneNumber: userName, code: code, passWord: password},
+            dataType: "json",
+            success: function (data) {
+                console.log(data);
+                //alert(data.message);
+                if (data.success && data.code == 200) {
+                    //   2、注册完成，跳转到登录页面
+                    document.getElementById("regSuccess").style.visibility = "visible";
+                    setTimeout(function () {
+                        //发布修改
+                        //window.location.href="/cas/login?service=http://192.168.2.65:8095";
+                        //window.location.href = "/cas/login?service=http://192.168.2.53:9528/";
+                        window.location.href = "/cas/login?service=" + newService;
+                        //window.location.href="/cas/login?service=https://my.xiangguohe.com/";
+                    }, 2000)
 
-                  }else{
-                      clearInterval(timerId);
-                      codeTime = 60;
-                      document.getElementById('btnSendCode').innerHTML="发送验证码";
-                      if(data.message.indexOf("手机号") > -1){
-                          document.getElementById("accountError").style.visibility="visible";
-                          document.getElementById("accountError").innerHTML=data.message;
-                      }else if(data.message.indexOf("验证码") > -1){
-                          document.getElementById("codeError").style.visibility="visible";
-                          document.getElementById("codeError").innerHTML=data.message;
-                      }else if(data.message.indexOf("密码") > -1){
-                          document.getElementById("passError").style.visibility="visible";
-                          document.getElementById("passError").innerHTML=data.message;
-                      }
+                } else {
+                    clearInterval(timerId);
+                    codeTime = 60;
+                    document.getElementById('btnSendCode').innerHTML = "发送验证码";
+                    if (data.message.indexOf("手机号") > -1) {
+                        document.getElementById("accountError").style.visibility = "visible";
+                        document.getElementById("accountError").innerHTML = data.message;
+                    } else if (data.message.indexOf("验证码") > -1) {
+                        document.getElementById("codeError").style.visibility = "visible";
+                        document.getElementById("codeError").innerHTML = data.message;
+                    } else if (data.message.indexOf("密码") > -1) {
+                        document.getElementById("passError").style.visibility = "visible";
+                        document.getElementById("passError").innerHTML = data.message;
+                    }
 
-                  }
-              },
-              error:function (error) {
-                  clearInterval(timerId);
-                  codeTime = 60;
-                  document.getElementById('btnSendCode').innerHTML="发送验证码";
-              }
-          });
+                }
+            },
+            error: function (error) {
+                clearInterval(timerId);
+                codeTime = 60;
+                document.getElementById('btnSendCode').innerHTML = "发送验证码";
+            }
+        });
 
 
     }
+
     //检查各项输入是否有效
-    function checkElement(){
-        if(!checkAccount()){
+    function checkElement() {
+        if (!checkAccount()) {
             return false
         }
-        if(!checkPassword()){
+        if (!checkPassword()) {
             return false
         }
-        if(!checkCode()){
+        if (!checkCode()) {
             return false
         }
         return true;
     }
+
     // 发送验证码
     function sendSms() {
-        console.log("checkAccount",checkAccount());
-        if(!checkAccount()){
+        console.log("checkAccount", checkAccount());
+        if (!checkAccount()) {
             return;
         }
-        if( codeTime < 60){
+        if (codeTime < 60) {
             return;
         }
 
-    //    1、计时器倒计时开始
-        document.getElementById('btnSendCode').value="已发送"
+        //    1、计时器倒计时开始
+        document.getElementById('btnSendCode').value = "已发送"
         timerId = setInterval(() => { //此处直接复制了另一个插件里的计时器，在插件市场里搜索登录，时间最靠前的那位
                 let ctime = codeTime;
                 ctime--;
                 codeTime = ctime;
-                document.getElementById('btnSendCode').innerHTML="已发送("+ctime+")s"
+                document.getElementById('btnSendCode').innerHTML = "已发送(" + ctime + ")s"
                 if (codeTime < 1) {
                     clearInterval(timerId);
                     codeTime = 60;
-                    document.getElementById('btnSendCode').innerHTML="发送验证码"
+                    document.getElementById('btnSendCode').innerHTML = "发送验证码"
                 }
             },
             1000);
@@ -272,67 +294,68 @@
         $.ajax({
             type: "POST",
             url: "/cas/sendSmsCode",
-            data: {phoneNumber:userName,key:'REGISTER_CODE_KEY:', sign:sign},
+            data: {phoneNumber: userName, key: 'REGISTER_CODE_KEY:', sign: sign},
             dataType: "json",
-            success: function(data){
+            success: function (data) {
                 //    验证码发送成功
-                if(data.success&&data.code==200){
-                    document.getElementById("codeError").style.visibility="visible";
-                    document.getElementById("codeError").innerHTML="验证码发送成功";
-                }else{
+                if (data.success && data.code == 200) {
+                    document.getElementById("codeError").style.visibility = "visible";
+                    document.getElementById("codeError").innerHTML = "验证码发送成功";
+                } else {
                     clearInterval(timerId);
                     codeTime = 60;
-                    document.getElementById('btnSendCode').innerHTML="发送验证码";
-                    if(data.message.indexOf("手机号") > -1){
-                        document.getElementById("accountError").style.visibility="visible";
-                        document.getElementById("accountError").innerHTML=data.message;
-                    }else if(data.message.indexOf("验证码") > -1){
-                        document.getElementById("codeError").style.visibility="visible";
-                        document.getElementById("codeError").innerHTML=data.message;
+                    document.getElementById('btnSendCode').innerHTML = "发送验证码";
+                    if (data.message.indexOf("手机号") > -1) {
+                        document.getElementById("accountError").style.visibility = "visible";
+                        document.getElementById("accountError").innerHTML = data.message;
+                    } else if (data.message.indexOf("验证码") > -1) {
+                        document.getElementById("codeError").style.visibility = "visible";
+                        document.getElementById("codeError").innerHTML = data.message;
                     }
                 }
 
             },
-            error:function (error) {
+            error: function (error) {
                 clearInterval(timerId);
                 codeTime = 60;
-                document.getElementById('btnSendCode').innerHTML="发送验证码";
+                document.getElementById('btnSendCode').innerHTML = "发送验证码";
             }
         });
 
     }
+
     //校验手机号
     function checkAccount() {
         userName = document.getElementById('username').value;
         let reg = /^1\d{10}$/
 
-        if(userName==""||userName==null){
+        if (userName == "" || userName == null) {
             //手机号输入格式不正确
-            document.getElementById("accountError").style.visibility="visible";
-            document.getElementById("accountError").innerHTML="手机号不能为空";
+            document.getElementById("accountError").style.visibility = "visible";
+            document.getElementById("accountError").innerHTML = "手机号不能为空";
             return false;
-        }else if(!reg.test(userName)){
-            document.getElementById("accountError").style.visibility="visible";
-            document.getElementById("accountError").innerHTML="手机号输入格式不正确";
+        } else if (!reg.test(userName)) {
+            document.getElementById("accountError").style.visibility = "visible";
+            document.getElementById("accountError").innerHTML = "手机号输入格式不正确";
             return false;
-        }else if(reg.test(userName)){
+        } else if (reg.test(userName)) {
             console.log("格式正确---------")
             var i;
             $.ajax({
-                    url:"/cas/checkPhone",
-                    type:"GET",
-                    data:{phoneNumber:userName},
-                    async:false,
-                    success:function(data){
-                        if (data.success){
+                    url: "/cas/checkPhone",
+                    type: "GET",
+                    data: {phoneNumber: userName},
+                    async: false,
+                    success: function (data) {
+                        if (data.success) {
                             console.log("可以注册---------")
                             //手机号输入正确
-                            document.getElementById("accountError").style.visibility="hidden";
+                            document.getElementById("accountError").style.visibility = "hidden";
                             i = true;
-                        }else {
+                        } else {
                             console.log("不可注册---------")
-                            document.getElementById("accountError").style.visibility="visible";
-                            document.getElementById("accountError").innerHTML=data.message;
+                            document.getElementById("accountError").style.visibility = "visible";
+                            document.getElementById("accountError").innerHTML = data.message;
                             i = false;
                         }
                     }
@@ -342,27 +365,29 @@
         }
 
     }
+
     //校验密码
-    function checkPassword(){
+    function checkPassword() {
         password = document.getElementById('password').value;
-        if(password==""||password==null){
+        if (password == "" || password == null) {
             alert("请输入密码");
             return false;
-        }else{
+        } else {
             return true;
         }
     }
+
     //校验验证码
-    function checkCode(){
+    function checkCode() {
         code = document.getElementById('code').value;
-        if(code==""||code==null){
+        if (code == "" || code == null) {
             //输入格式不正确
-            document.getElementById("codeError").style.visibility="visible";
-            document.getElementById("codeError").innerText="请输入验证码";
+            document.getElementById("codeError").style.visibility = "visible";
+            document.getElementById("codeError").innerText = "请输入验证码";
             return false;
-        }else{
+        } else {
             //验证码输入正确
-            document.getElementById("codeError").style.visibility="hidden";
+            document.getElementById("codeError").style.visibility = "hidden";
             return true;
         }
 

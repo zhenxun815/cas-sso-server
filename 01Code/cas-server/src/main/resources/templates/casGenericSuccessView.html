@@ -22,8 +22,7 @@
             <p th:unless="${#maps.isEmpty(principal.attributes)}"><a data-toggle="collapse" href="#divAttributes" aria-expanded="false" aria-controls="divAttributes">Click here</a>
                 to view attributes resolved and retrieved for <strong><span th:utext="${principal.id}"/></strong>.</p>
             
-            <p th:utext="#{screen.success.security}">When you are finished, for security reasons, please <a
-                    href="logout">log out</a> and exit your web browser.</p>
+            <p th:utext="#{screen.success.security}">When you are finished, for security reasons, please log out and exit your web browser.</p>
 
             <div class="collapse" id="divAttributes">
                 <table id="attributesTable" class="table table-striped table-bordered mt-3">
